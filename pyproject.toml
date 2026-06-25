@@ -1,0 +1,79 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "fairscope"
+dynamic = ["version"]
+description = "Subgroup-stratified, calibration-aware fairness auditing for ML models, grounded in peer-reviewed methods."
+readme = "README.md"
+requires-python = ">=3.9"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{ name = "Rajveer Singh Pall" }]
+keywords = [
+    "fairness",
+    "machine-learning",
+    "calibration",
+    "auc",
+    "delong",
+    "subgroup-analysis",
+    "model-auditing",
+]
+classifiers = [
+    "Development Status :: 2 - Pre-Alpha",
+    "Intended Audience :: Science/Research",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+dependencies = [
+    "numpy>=1.23",
+    "scipy>=1.9",
+    "scikit-learn>=1.1",
+    "pandas>=1.5",
+    "matplotlib>=3.6",
+]
+
+[project.optional-dependencies]
+nlp = ["torch>=2.0", "transformers>=4.30", "captum>=0.6"]
+shap = ["shap>=0.42"]
+docs = ["mkdocs>=1.5", "mkdocs-material>=9.4", "mkdocstrings[python]>=0.24"]
+dev = [
+    "pytest>=7.4",
+    "pytest-cov>=4.1",
+    "ruff>=0.5",
+    "black>=24.0",
+    "pre-commit>=3.5",
+    "statsmodels>=0.14",
+]
+all = ["fairscope[nlp,shap]"]
+
+[project.urls]
+Homepage = "https://github.com/Rajveer-code/fairscope"
+Repository = "https://github.com/Rajveer-code/fairscope"
+Issues = "https://github.com/Rajveer-code/fairscope/issues"
+
+[tool.hatch.version]
+path = "fairscope/__init__.py"
+
+[tool.hatch.build.targets.wheel]
+packages = ["fairscope"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py39"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "W", "UP", "B"]
+
+[tool.black]
+line-length = 100
+target-version = ["py39"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra"
