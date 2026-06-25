@@ -44,3 +44,6 @@ data/
 .vscode/
 .DS_Store
 Thumbs.db
+
+# Internal planning docs — never publish
+docs/internal/
