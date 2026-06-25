@@ -1,0 +1,84 @@
+cff-version: 1.2.0
+message: "If you use fairscope, please cite it as below."
+title: "fairscope: subgroup-stratified, calibration-aware fairness auditing for ML models"
+abstract: >-
+  An open-source Python library that packages peer-reviewed statistical methods for
+  subgroup-stratified, calibration-aware fairness auditing — including per-subgroup
+  DeLong confidence intervals, per-subgroup Expected Calibration Error, bootstrap
+  significance testing, a subgroup-stratified interface to standard recalibration, and a
+  five-axis Cross-Platform Fairness Evaluation (CPFE) protocol.
+type: software
+authors:
+  - family-names: Pall
+    given-names: Rajveer Singh
+    orcid: "https://orcid.org/0009-0001-6762-6134"
+version: "0.0.1.dev0"
+license: MIT
+repository-code: "https://github.com/Rajveer-code/fairscope"
+keywords:
+  - fairness
+  - machine learning
+  - calibration
+  - DeLong
+  - subgroup analysis
+  - model auditing
+# Preprints below have no final venue yet; DOIs and identifiers are added on publication.
+references:
+  - type: article
+    title: >-
+      Comprehensive Evaluation of Machine Learning for Type 2 Diabetes Risk Prediction:
+      Large-Scale External Validation and Fairness Analysis
+    authors:
+      - family-names: Pall
+        given-names: Rajveer Singh
+      - family-names: Yadav
+        given-names: Sameer
+      - family-names: Bhalerao
+        given-names: Siddharth
+      - family-names: Sahu
+        given-names: Sourabh
+      - family-names: Ahluwalia
+        given-names: Ritu
+      - family-names: Awadhiya
+        given-names: Bhaskar
+    year: 2025
+    notes: "Published, IEEE (2025)."
+  - type: article
+    title: >-
+      Who Bears the Burden? Heterogeneous Racial Approval Differentials in U.S. Mortgage
+      Lending: Evidence from Causal Forest Double Machine Learning on 42 Million HMDA
+      Applications, 2020-2024
+    authors:
+      - family-names: Pall
+        given-names: Rajveer Singh
+    year: 2026
+    notes: "Preprint; under review."
+  - type: article
+    title: >-
+      Persistent Racial Disparities in U.S. Mortgage Approval: Evidence from 42 Million
+      Applications, 2020-2024
+    authors:
+      - family-names: Pall
+        given-names: Rajveer Singh
+    year: 2026
+    notes: "Preprint; under review."
+  - type: article
+    title: >-
+      Cross-Platform Generalisation Failure in Mental Health Natural Language Processing:
+      A Five-Axis Fairness Audit of Transformer Models on Social Media
+    authors:
+      - family-names: Pall
+        given-names: Rajveer Singh
+      - family-names: Yadav
+        given-names: Sameer
+    year: 2026
+    notes: "Preprint; under review."
+  - type: article
+    title: >-
+      Privacy-Preserving Federated Learning for Diabetes Risk Prediction Across
+      Demographically Heterogeneous Hospital Nodes
+    authors:
+      - family-names: Pall
+        given-names: Rajveer Singh
+    year: 2026
+    notes: "Preprint; under review."
