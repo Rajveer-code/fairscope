@@ -31,6 +31,12 @@ coverage.xml
 # Docs build
 site/
 
+# LaTeX build artifacts (paper/)
+paper/*.aux
+paper/*.log
+paper/*.out
+paper/*.pdf
+
 # Notebooks
 .ipynb_checkpoints/
 
