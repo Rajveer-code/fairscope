@@ -2,6 +2,9 @@
 
 [![CI](https://github.com/Rajveer-code/fairscope/actions/workflows/ci.yml/badge.svg)](https://github.com/Rajveer-code/fairscope/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![Docs](https://img.shields.io/badge/docs-live-brightgreen.svg)](https://rajveer-code.github.io/fairscope/)
+
+📖 **Documentation:** <https://rajveer-code.github.io/fairscope/>
 
 **Subgroup-stratified, calibration-aware fairness auditing for ML models — grounded in peer-reviewed methods.**
 
