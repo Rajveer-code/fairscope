@@ -82,3 +82,12 @@ def test_by_group_returns_ci_per_group():
     out = delong_by_group(y, s, g)
     assert set(out.keys()) == {"A", "B"}
     assert "auc" in out["A"] and "ci_lower" in out["A"]
+
+
+def test_by_group_single_class_subgroup_raises():
+    # Overall y has both classes, but subgroup B is single-class -> informative raise.
+    y = np.array([0, 1, 0, 1, 1, 1, 1, 1])
+    s = np.array([0.2, 0.8, 0.3, 0.7, 0.6, 0.5, 0.4, 0.9])
+    g = np.array(["A", "A", "A", "A", "B", "B", "B", "B"])
+    with pytest.raises(ValueError, match="subgroup"):
+        delong_by_group(y, s, g)

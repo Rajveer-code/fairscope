@@ -25,3 +25,13 @@ def test_bh_matches_statsmodels():
 def test_rejects_out_of_range_pvalues():
     with pytest.raises(ValueError):
         bonferroni([0.1, 1.5])
+
+
+def test_rejects_2d_pvalues():
+    with pytest.raises(ValueError):
+        bonferroni(np.array([[0.1, 0.2], [0.3, 0.4]]))
+
+
+def test_rejects_nan_pvalues():
+    with pytest.raises(ValueError):
+        benjamini_hochberg([0.1, np.nan, 0.3])

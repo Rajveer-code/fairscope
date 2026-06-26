@@ -37,3 +37,8 @@ def test_check_binary_values_allows_single_class():
 def test_check_scores_rejects_nan():
     with pytest.raises(ValueError):
         _check_scores(np.array([0.1, np.nan, 0.3]))
+
+
+def test_check_binary_values_rejects_nan():
+    with pytest.raises(ValueError):
+        _check_binary_values(np.array([0.0, np.nan, 1.0]))
