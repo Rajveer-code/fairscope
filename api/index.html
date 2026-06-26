@@ -1,0 +1,2788 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Subgroup-stratified, calibration-aware fairness auditing for ML models">
+      
+      
+      
+      
+        <link rel="prev" href="../healthcare/">
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>API reference - fairscope</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#api-reference" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="fairscope" class="md-header__button md-logo" aria-label="fairscope" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            fairscope
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              API reference
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Rajveer-code/fairscope" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Rajveer-code/fairscope
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="fairscope" class="md-nav__button md-logo" aria-label="fairscope" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    fairscope
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Rajveer-code/fairscope" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Rajveer-code/fairscope
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../getting-started/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting started
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cpfe/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CPFE protocol
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../healthcare/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Healthcare audit
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API reference
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#top-level" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Top level
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fairscope.FairnessAudit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FairnessAudit
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fairscopecore" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        fairscope.core
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fairscope.core" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        core
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="core">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fairscope.core.bootstrap_auc_test" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        bootstrap_auc_test
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fairscope.core.ece_by_group" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ece_by_group
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fairscope.core.expected_calibration_error" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        expected_calibration_error
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fairscope.core.isotonic_recalibrate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        isotonic_recalibrate
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fairscope.core.maximum_calibration_error" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        maximum_calibration_error
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fairscope.core.reliability_diagram" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        reliability_diagram
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fairscope.core.temperature_scale" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        temperature_scale
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fairscope.core.benjamini_hochberg" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        benjamini_hochberg
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fairscope.core.bonferroni" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        bonferroni
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fairscope.core.delong_auc_ci" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        delong_auc_ci
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fairscope.core.delong_by_group" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        delong_by_group
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fairscope.core.delong_paired_test" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        delong_paired_test
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fairscope.core.delong_unpaired_test" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        delong_unpaired_test
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fairscope.core.disparate_impact" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        disparate_impact
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fairscope.core.equalized_odds_difference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        equalized_odds_difference
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fairscope.core.subgroup_metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        subgroup_metrics
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fairscopehealthcare" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        fairscope.healthcare
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fairscope.healthcare.audit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        audit
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="audit">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fairscope.healthcare.audit.HealthcareFairnessAudit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        HealthcareFairnessAudit
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="HealthcareFairnessAudit">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fairscope.healthcare.audit.HealthcareFairnessAudit.from_scores" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        from_scores
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fairscope.healthcare.audit.HealthcareFairnessAudit.run" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        run
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fairscope.healthcare.audit.HealthcareFairnessAudit.shap_summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        shap_summary
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fairscope.healthcare.audit.HealthcareReport" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        HealthcareReport
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="HealthcareReport">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fairscope.healthcare.audit.HealthcareReport.summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        summary
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fairscope.healthcare.audit.HealthcareReport.plot_auc_forest" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        plot_auc_forest
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fairscope.healthcare.audit.HealthcareReport.plot_calibration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        plot_calibration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fairscope.healthcare.audit.HealthcareReport.to_pdf" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        to_pdf
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fairscopenlp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        fairscope.nlp
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fairscope.nlp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        nlp
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="nlp">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fairscope.nlp.CPFEProtocol" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CPFEProtocol
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fairscope.nlp.CPFEReport" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CPFEReport
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="CPFEReport">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fairscope.nlp.CPFEReport.deployment_readiness" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        deployment_readiness
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fairscope.nlp.jaccard_topk" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        jaccard_topk
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fairscope.nlp.token_saliency" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        token_saliency
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fairscope.nlp.macro_auc" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        macro_auc
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fairscope.nlp.macro_f1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        macro_f1
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fairscope.nlp.multiclass_ece" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        multiclass_ece
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fairscope.nlp.per_class_disparate_impact" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        per_class_disparate_impact
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fairscope.nlp.per_class_equalized_odds" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        per_class_equalized_odds
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fairscope.nlp.bootstrap_macro_auc_test" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        bootstrap_macro_auc_test
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#top-level" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Top level
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fairscope.FairnessAudit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FairnessAudit
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fairscopecore" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        fairscope.core
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fairscope.core" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        core
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="core">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fairscope.core.bootstrap_auc_test" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        bootstrap_auc_test
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fairscope.core.ece_by_group" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ece_by_group
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fairscope.core.expected_calibration_error" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        expected_calibration_error
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fairscope.core.isotonic_recalibrate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        isotonic_recalibrate
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fairscope.core.maximum_calibration_error" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        maximum_calibration_error
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fairscope.core.reliability_diagram" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        reliability_diagram
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fairscope.core.temperature_scale" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        temperature_scale
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fairscope.core.benjamini_hochberg" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        benjamini_hochberg
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fairscope.core.bonferroni" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        bonferroni
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fairscope.core.delong_auc_ci" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        delong_auc_ci
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fairscope.core.delong_by_group" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        delong_by_group
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fairscope.core.delong_paired_test" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        delong_paired_test
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fairscope.core.delong_unpaired_test" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        delong_unpaired_test
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fairscope.core.disparate_impact" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        disparate_impact
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fairscope.core.equalized_odds_difference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        equalized_odds_difference
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fairscope.core.subgroup_metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        subgroup_metrics
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fairscopehealthcare" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        fairscope.healthcare
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fairscope.healthcare.audit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        audit
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="audit">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fairscope.healthcare.audit.HealthcareFairnessAudit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        HealthcareFairnessAudit
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="HealthcareFairnessAudit">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fairscope.healthcare.audit.HealthcareFairnessAudit.from_scores" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        from_scores
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fairscope.healthcare.audit.HealthcareFairnessAudit.run" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        run
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fairscope.healthcare.audit.HealthcareFairnessAudit.shap_summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        shap_summary
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fairscope.healthcare.audit.HealthcareReport" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        HealthcareReport
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="HealthcareReport">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fairscope.healthcare.audit.HealthcareReport.summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        summary
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fairscope.healthcare.audit.HealthcareReport.plot_auc_forest" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        plot_auc_forest
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fairscope.healthcare.audit.HealthcareReport.plot_calibration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        plot_calibration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fairscope.healthcare.audit.HealthcareReport.to_pdf" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        to_pdf
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fairscopenlp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        fairscope.nlp
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fairscope.nlp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        nlp
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="nlp">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fairscope.nlp.CPFEProtocol" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CPFEProtocol
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fairscope.nlp.CPFEReport" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CPFEReport
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="CPFEReport">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fairscope.nlp.CPFEReport.deployment_readiness" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        deployment_readiness
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fairscope.nlp.jaccard_topk" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        jaccard_topk
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fairscope.nlp.token_saliency" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        token_saliency
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fairscope.nlp.macro_auc" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        macro_auc
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fairscope.nlp.macro_f1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        macro_f1
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fairscope.nlp.multiclass_ece" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        multiclass_ece
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fairscope.nlp.per_class_disparate_impact" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        per_class_disparate_impact
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fairscope.nlp.per_class_equalized_odds" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        per_class_equalized_odds
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fairscope.nlp.bootstrap_macro_auc_test" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        bootstrap_macro_auc_test
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="api-reference">API reference<a class="headerlink" href="#api-reference" title="Permanent link">&para;</a></h1>
+<p>Auto-generated from the package docstrings.</p>
+<h2 id="top-level">Top level<a class="headerlink" href="#top-level" title="Permanent link">&para;</a></h2>
+
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="fairscope.FairnessAudit" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">fairscope</span><span class="o">.</span><span class="n">FairnessAudit</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">domain</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></code>
+
+<a href="#fairscope.FairnessAudit" class="headerlink" title="Permanent link">&para;</a></h2>
+
+
+    <div class="doc doc-contents first">
+
+        <p>Route to a domain-specific fairness audit.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>model</code>
+            </td>
+            <td>
+                  <code>the fitted classifier (or ``None`` with precomputed scores via the domain API).</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>domain</code>
+            </td>
+            <td>
+                  <code><span title="str">str</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The audit domain. Implemented: <code>"healthcare"</code> (uses <code>model</code>) and <code>"nlp"</code>
+(the CPFE protocol; operates on precomputed <code>platform_data</code>, <code>model</code> ignored).</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>**kwargs</code>
+            </td>
+            <td>
+                  <code>passed through to the domain audit class.</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                
+              </div>
+            </td>
+            <td>
+                  <code>{}</code>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+<p><span class="doc-section-title">Examples:</span></p>
+    <div class="highlight"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">fairscope</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">callable</span><span class="p">(</span><span class="n">fairscope</span><span class="o">.</span><span class="n">FairnessAudit</span><span class="p">)</span>
+<span class="go">True</span>
+</code></pre></div>
+
+
+    </div>
+
+</div><h2 id="fairscopecore"><code>fairscope.core</code><a class="headerlink" href="#fairscopecore" title="Permanent link">&para;</a></h2>
+
+
+<div class="doc doc-object doc-module">
+
+
+
+<h2 id="fairscope.core" class="doc doc-heading">
+            <code>fairscope.core</code>
+
+
+<a href="#fairscope.core" class="headerlink" title="Permanent link">&para;</a></h2>
+
+    <div class="doc doc-contents first">
+
+        <p>Core statistical primitives for fairscope.</p>
+<p>Public API for subgroup-stratified, calibration-aware fairness auditing:
+DeLong AUC confidence intervals and tests, a stratified bootstrap AUC test, calibration
+error and recalibration, multiple-comparison corrections, and subgroup fairness metrics.</p>
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="fairscope.core.bootstrap_auc_test" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">bootstrap_auc_test</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">score_a</span><span class="p">,</span> <span class="n">score_b</span><span class="p">,</span> <span class="n">n_boot</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+<a href="#fairscope.core.bootstrap_auc_test" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Stratified bootstrap test of (AUC_a - AUC_b) on the same samples.</p>
+<p>Resamples positives and negatives separately (preserving class balance). Returns a
+dict: auc_a, auc_b, delta, se, z, p_value, ci_lower, ci_upper, n_boot.</p>
+
+
+<p><span class="doc-section-title">Examples:</span></p>
+    <div class="highlight"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">y</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">integers</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">400</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="mi">400</span><span class="p">)</span> <span class="o">+</span> <span class="mf">0.8</span> <span class="o">*</span> <span class="n">y</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="mi">400</span><span class="p">)</span> <span class="o">+</span> <span class="mf">0.05</span> <span class="o">*</span> <span class="n">y</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">bootstrap_auc_test</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">n_boot</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)[</span><span class="s2">&quot;delta&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span>
+<span class="go">True</span>
+</code></pre></div>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="fairscope.core.ece_by_group" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">ece_by_group</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_prob</span><span class="p">,</span> <span class="n">groups</span><span class="p">,</span> <span class="n">n_bins</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">strategy</span><span class="o">=</span><span class="s1">&#39;uniform&#39;</span><span class="p">)</span></code>
+
+<a href="#fairscope.core.ece_by_group" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Per-subgroup Expected Calibration Error. Returns <code>{group: ece}</code>.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="fairscope.core.expected_calibration_error" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">expected_calibration_error</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_prob</span><span class="p">,</span> <span class="n">n_bins</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">strategy</span><span class="o">=</span><span class="s1">&#39;uniform&#39;</span><span class="p">)</span></code>
+
+<a href="#fairscope.core.expected_calibration_error" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Weighted mean |observed frequency - mean predicted probability| across bins.</p>
+<p>Returns 0.0 if there is no data. <code>strategy</code> is 'uniform' (equal-width) or 'quantile'
+(equal-frequency) bins.</p>
+
+
+<p><span class="doc-section-title">Examples:</span></p>
+    <div class="highlight"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">p</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">expected_calibration_error</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+<span class="go">0.0</span>
+</code></pre></div>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="fairscope.core.isotonic_recalibrate" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">isotonic_recalibrate</span><span class="p">(</span><span class="n">probs</span><span class="p">,</span> <span class="n">y_true</span><span class="p">)</span></code>
+
+<a href="#fairscope.core.isotonic_recalibrate" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Fit isotonic regression mapping predicted prob -&gt; calibrated prob
+(Zadrozny &amp; Elkan, 2002). Returns <code>(fitted_model, calibrated_probabilities)</code>.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="fairscope.core.maximum_calibration_error" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">maximum_calibration_error</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_prob</span><span class="p">,</span> <span class="n">n_bins</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">strategy</span><span class="o">=</span><span class="s1">&#39;uniform&#39;</span><span class="p">)</span></code>
+
+<a href="#fairscope.core.maximum_calibration_error" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Maximum |observed frequency - mean predicted probability| over bins.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="fairscope.core.reliability_diagram" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">reliability_diagram</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_prob</span><span class="p">,</span> <span class="n">groups</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">n_bins</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span></code>
+
+<a href="#fairscope.core.reliability_diagram" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Reliability diagram (mean predicted probability vs observed frequency).</p>
+<p>Returns a matplotlib <code>Figure</code>. If <code>groups</code> is given, draws one curve per subgroup.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="fairscope.core.temperature_scale" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">temperature_scale</span><span class="p">(</span><span class="n">logits</span><span class="p">,</span> <span class="n">y_true</span><span class="p">,</span> <span class="n">max_iter</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span></code>
+
+<a href="#fairscope.core.temperature_scale" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Fit a single temperature T&gt;0 by minimizing NLL (Guo et al., 2017).</p>
+<p><code>logits</code> may be 1-D (binary positive-class logit) or 2-D (n, n_classes). Returns
+<code>(T, calibrated_probabilities)</code>; calibrated probabilities are 1-D for 1-D input.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="fairscope.core.benjamini_hochberg" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">benjamini_hochberg</span><span class="p">(</span><span class="n">p_values</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.05</span><span class="p">)</span></code>
+
+<a href="#fairscope.core.benjamini_hochberg" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Benjamini-Hochberg FDR correction (step-up). Returns adjusted, reject.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="fairscope.core.bonferroni" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">bonferroni</span><span class="p">(</span><span class="n">p_values</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.05</span><span class="p">)</span></code>
+
+<a href="#fairscope.core.bonferroni" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Bonferroni correction. Returns adjusted, reject, threshold.</p>
+
+
+<p><span class="doc-section-title">Examples:</span></p>
+    <div class="highlight"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="n">bonferroni</span><span class="p">([</span><span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">],</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.05</span><span class="p">)[</span><span class="s2">&quot;adjusted&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+<span class="go">[0.02, 1.0]</span>
+</code></pre></div>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="fairscope.core.delong_auc_ci" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">delong_auc_ci</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_score</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.05</span><span class="p">)</span></code>
+
+<a href="#fairscope.core.delong_auc_ci" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>AUC with a DeLong (1 - alpha) normal-approximation confidence interval.</p>
+<p>Returns a dict: auc, ci_lower, ci_upper, se, n_pos, n_neg.</p>
+
+
+<p><span class="doc-section-title">Examples:</span></p>
+    <div class="highlight"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.9</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">round</span><span class="p">(</span><span class="n">delong_auc_ci</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">s</span><span class="p">)[</span><span class="s2">&quot;auc&quot;</span><span class="p">],</span> <span class="mi">3</span><span class="p">)</span>
+<span class="go">0.875</span>
+</code></pre></div>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="fairscope.core.delong_by_group" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">delong_by_group</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_score</span><span class="p">,</span> <span class="n">groups</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.05</span><span class="p">)</span></code>
+
+<a href="#fairscope.core.delong_by_group" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Per-subgroup DeLong AUC CIs. Returns {group: ci_dict}.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="fairscope.core.delong_paired_test" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">delong_paired_test</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">score_a</span><span class="p">,</span> <span class="n">score_b</span><span class="p">)</span></code>
+
+<a href="#fairscope.core.delong_paired_test" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Covariance-aware paired DeLong test for two scores on the SAME samples.</p>
+<p>Returns: auc_a, auc_b, delta, z, p_value.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="fairscope.core.delong_unpaired_test" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">delong_unpaired_test</span><span class="p">(</span><span class="n">y_true_a</span><span class="p">,</span> <span class="n">score_a</span><span class="p">,</span> <span class="n">y_true_b</span><span class="p">,</span> <span class="n">score_b</span><span class="p">)</span></code>
+
+<a href="#fairscope.core.delong_unpaired_test" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Unpaired DeLong test for two INDEPENDENT samples (the cross-platform case).</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="fairscope.core.disparate_impact" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">disparate_impact</span><span class="p">(</span><span class="n">y_pred</span><span class="p">,</span> <span class="n">groups</span><span class="p">,</span> <span class="n">group_a</span><span class="p">,</span> <span class="n">group_b</span><span class="p">)</span></code>
+
+<a href="#fairscope.core.disparate_impact" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Symmetric disparate impact between two groups: min(rate_a/rate_b, rate_b/rate_a).</p>
+<p><code>rate = P(y_pred == 1 | group)</code> over hard 0/1 predictions. Result is in (0, 1];
+&lt; 0.80 violates the four-fifths rule and &lt; 0.50 is a severe disparity (interpretation
+per the CPFE paper). If both rates are 0 the groups are treated as equal (returns 1.0);
+if exactly one rate is 0 the disparity is maximal (returns 0.0).</p>
+
+
+<p><span class="doc-section-title">Examples:</span></p>
+    <div class="highlight"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">y_pred</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">g</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="s2">&quot;A&quot;</span><span class="p">,</span> <span class="s2">&quot;A&quot;</span><span class="p">,</span> <span class="s2">&quot;A&quot;</span><span class="p">,</span> <span class="s2">&quot;A&quot;</span><span class="p">,</span> <span class="s2">&quot;B&quot;</span><span class="p">,</span> <span class="s2">&quot;B&quot;</span><span class="p">,</span> <span class="s2">&quot;B&quot;</span><span class="p">,</span> <span class="s2">&quot;B&quot;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">round</span><span class="p">(</span><span class="n">disparate_impact</span><span class="p">(</span><span class="n">y_pred</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="s2">&quot;A&quot;</span><span class="p">,</span> <span class="s2">&quot;B&quot;</span><span class="p">),</span> <span class="mi">3</span><span class="p">)</span>
+<span class="go">0.5</span>
+</code></pre></div>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="fairscope.core.equalized_odds_difference" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">equalized_odds_difference</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">groups</span><span class="p">,</span> <span class="n">group_a</span><span class="p">,</span> <span class="n">group_b</span><span class="p">)</span></code>
+
+<a href="#fairscope.core.equalized_odds_difference" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>|TPR_a - TPR_b|, the equalized odds difference as defined in the CPFE paper.</p>
+<p><code>TPR = P(y_pred == 1 | y_true == 1, group)</code>. Raises if either group has no
+positive labels (TPR undefined).</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="fairscope.core.subgroup_metrics" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">subgroup_metrics</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_score</span><span class="p">,</span> <span class="n">groups</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span></code>
+
+<a href="#fairscope.core.subgroup_metrics" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Per-subgroup discrimination metrics: <code>{group: {auc, brier, f1, n}}</code>.</p>
+<p><code>y_score</code> are predicted probabilities in [0, 1] (Brier assumes a probability);
+<code>threshold</code> binarizes them for F1. Raises if any subgroup is single-class (AUC
+undefined) or if <code>y_score</code> contains NaN.</p>
+
+
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div><h2 id="fairscopehealthcare"><code>fairscope.healthcare</code><a class="headerlink" href="#fairscopehealthcare" title="Permanent link">&para;</a></h2>
+
+
+<div class="doc doc-object doc-module">
+
+
+
+<h2 id="fairscope.healthcare.audit" class="doc doc-heading">
+            <code>fairscope.healthcare.audit</code>
+
+
+<a href="#fairscope.healthcare.audit" class="headerlink" title="Permanent link">&para;</a></h2>
+
+    <div class="doc doc-contents first">
+
+        <p>One-call clinical fairness audit. Composes fairscope.core; invents no statistics.</p>
+<p>Pipeline per protected attribute: per-subgroup DeLong AUC CIs -&gt; per-subgroup ECE -&gt;
+per-subgroup Brier/F1 -&gt; Bonferroni-corrected pairwise (unpaired) DeLong tests across the
+attribute's subgroups. Mirrors the analysis in the diabetes paper (IEEE CIPHER 2026).</p>
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-class">
+
+
+
+<h3 id="fairscope.healthcare.audit.HealthcareFairnessAudit" class="doc doc-heading">
+            <code>HealthcareFairnessAudit</code>
+
+
+<a href="#fairscope.healthcare.audit.HealthcareFairnessAudit" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+
+
+        <p>Audit a fitted classifier (or precomputed scores) for subgroup fairness.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>model</code>
+            </td>
+            <td>
+                  <code>object with ``predict_proba`` (positive-class probability in column 1), or</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p><code>None</code> when using :meth:<code>from_scores</code>.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>X_test</code>
+            </td>
+            <td>
+                  <code>test features and binary labels.</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>y_test</code>
+            </td>
+            <td>
+                  <code>test features and binary labels.</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>protected_attr</code>
+            </td>
+            <td>
+                  <code>dict ``{attribute_name: 1-D array of subgroup labels per sample}``.</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="fairscope.healthcare.audit.HealthcareFairnessAudit.from_scores" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">from_scores</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_score</span><span class="p">,</span> <span class="n">protected_attr</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">n_bins</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.05</span><span class="p">)</span></code>
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-classmethod"><code>classmethod</code></small>
+  </span>
+
+<a href="#fairscope.healthcare.audit.HealthcareFairnessAudit.from_scores" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Build an audit from precomputed positive-class probabilities (no model).</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="fairscope.healthcare.audit.HealthcareFairnessAudit.run" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">run</span><span class="p">()</span></code>
+
+<a href="#fairscope.healthcare.audit.HealthcareFairnessAudit.run" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Run the audit and return a :class:<code>HealthcareReport</code>.</p>
+<p>Raises a clear, attribute-named <code>ValueError</code> if a subgroup is single-class
+(AUC undefined) rather than letting a low-level error surface.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="fairscope.healthcare.audit.HealthcareFairnessAudit.shap_summary" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">shap_summary</span><span class="p">(</span><span class="n">max_samples</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span></code>
+
+<a href="#fairscope.healthcare.audit.HealthcareFairnessAudit.shap_summary" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Mean absolute SHAP value per feature (optional). Requires
+<code>pip install fairscope[shap]</code> and a model (not <code>from_scores</code>). Returns a dict
+<code>{feature_index: mean_abs_shap}</code>.</p>
+
+
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h3 id="fairscope.healthcare.audit.HealthcareReport" class="doc doc-heading">
+            <code>HealthcareReport</code>
+
+
+<a href="#fairscope.healthcare.audit.HealthcareReport" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+
+
+        <p>Holds audit results and the raw (y, score, groups) needed to render reliability
+curves; provides tables (here), and plots/PDF (see plotting methods).</p>
+
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="fairscope.healthcare.audit.HealthcareReport.summary" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">summary</span><span class="p">()</span></code>
+
+<a href="#fairscope.healthcare.audit.HealthcareReport.summary" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Return a human-readable summary string (no print side effect).</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="fairscope.healthcare.audit.HealthcareReport.plot_auc_forest" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">plot_auc_forest</span><span class="p">(</span><span class="n">attribute</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+<a href="#fairscope.healthcare.audit.HealthcareReport.plot_auc_forest" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Forest plot of per-subgroup AUC with DeLong 95% CIs. Returns a Figure.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="fairscope.healthcare.audit.HealthcareReport.plot_calibration" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">plot_calibration</span><span class="p">(</span><span class="n">attribute</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+<a href="#fairscope.healthcare.audit.HealthcareReport.plot_calibration" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Reliability curves per subgroup for one attribute, drawn with
+<code>core.reliability_diagram</code>. Returns a Figure.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="fairscope.healthcare.audit.HealthcareReport.to_pdf" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">to_pdf</span><span class="p">(</span><span class="n">path</span><span class="p">)</span></code>
+
+<a href="#fairscope.healthcare.audit.HealthcareReport.to_pdf" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Write a multi-page PDF: summary, AUC forest, and one calibration page per
+attribute. Uses matplotlib only (no extra dependency).</p>
+
+
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+
+
+
+  </div>
+
+    </div>
+
+</div><h2 id="fairscopenlp"><code>fairscope.nlp</code><a class="headerlink" href="#fairscopenlp" title="Permanent link">&para;</a></h2>
+
+
+<div class="doc doc-object doc-module">
+
+
+
+<h2 id="fairscope.nlp" class="doc doc-heading">
+            <code>fairscope.nlp</code>
+
+
+<a href="#fairscope.nlp" class="headerlink" title="Permanent link">&para;</a></h2>
+
+    <div class="doc doc-contents first">
+
+        <p>Cross-Platform Fairness Evaluation (CPFE) for NLP, built on fairscope.core.</p>
+<p>Public API: the five-axis <code>CPFEProtocol</code>/<code>CPFEReport</code>, the multiclass metric and
+significance primitives (axes 1-4), and the attribution-stability functions (axis 5).</p>
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-class">
+
+
+
+<h3 id="fairscope.nlp.CPFEProtocol" class="doc doc-heading">
+            <code>CPFEProtocol</code>
+
+
+<a href="#fairscope.nlp.CPFEProtocol" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+
+
+        <p>Run the CPFE five-axis evaluation over precomputed per-platform outputs.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>platform_data</code>
+            </td>
+            <td>
+                  <code>dict ``{name: {&#34;y_true&#34;: array, &#34;probs&#34;: (n, n_classes) array}}``.</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>reference</code>
+            </td>
+            <td>
+                  <code>the within-platform name (e.g. the training platform).</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>n_classes</code>
+            </td>
+            <td>
+                  <code>number of classes.</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>delta_auc_pct_max</code>
+            </td>
+            <td>
+                  <code>ILLUSTRATIVE macro-AUC-drop screening limit (percent) used by</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p><code>CPFEReport.deployment_readiness</code>. NOT a published cutoff: P4 Section 6.6 declines
+to set one (observed drops were 28.6-39.5%); the default echoes that "&gt;30%" magnitude
+and is labelled illustrative everywhere it surfaces.</p>
+              </div>
+            </td>
+            <td>
+                  <code>30.0</code>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h3 id="fairscope.nlp.CPFEReport" class="doc doc-heading">
+            <code>CPFEReport</code>
+
+
+<a href="#fairscope.nlp.CPFEReport" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+
+
+        <p>Holds the five-axis results and renders tables and a deployment-readiness diagnostic.</p>
+
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="fairscope.nlp.CPFEReport.deployment_readiness" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">deployment_readiness</span><span class="p">()</span></code>
+
+<a href="#fairscope.nlp.CPFEReport.deployment_readiness" class="headerlink" title="Permanent link">&para;</a></h4>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Structured per-axis, per-platform screening DIAGNOSTIC -- NOT a deployment
+decision. Following the CPFE paper (Sections 6.5-6.6), cross-platform degradation
+is an informative diagnostic, not definitive evidence of bias.</p>
+<p>Thresholds: calibration uses P4's stated ECE bands (Suppl. Fig. S2); equity uses
+P4's four-fifths rule; discrimination uses an ILLUSTRATIVE <code>delta_auc_pct_max</code>
+(P4 Section 6.6 declines to set a published cutoff). Returns
+<code>{platform: {"ready": bool, "axes": {axis: {pass, value, threshold, source, reason}}}}</code>.</p>
+
+
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="fairscope.nlp.jaccard_topk" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">jaccard_topk</span><span class="p">(</span><span class="n">saliency_a</span><span class="p">,</span> <span class="n">saliency_b</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span></code>
+
+<a href="#fairscope.nlp.jaccard_topk" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Jaccard overlap of the top-k tokens by saliency: <code>|topK(A) ∩ topK(B)| / |union|</code>.</p>
+<p><code>saliency_*</code> map token -&gt; saliency score. Returns 0.0 if both are empty.</p>
+
+
+<p><span class="doc-section-title">Examples:</span></p>
+    <div class="highlight"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="n">jaccard_topk</span><span class="p">({</span><span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mf">0.9</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="mf">0.8</span><span class="p">},</span> <span class="p">{</span><span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mf">0.7</span><span class="p">,</span> <span class="s2">&quot;c&quot;</span><span class="p">:</span> <span class="mf">0.6</span><span class="p">},</span> <span class="n">k</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="go">0.3333333333333333</span>
+</code></pre></div>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="fairscope.nlp.token_saliency" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">token_saliency</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+<a href="#fairscope.nlp.token_saliency" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Per-token gradient saliency <code>s_i = ‖∂P(y|x)/∂E_i‖₂</code> via Captum (optional).
+Requires <code>pip install fairscope[nlp]</code>. Returns <code>{token: saliency}</code>.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="fairscope.nlp.macro_auc" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">macro_auc</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">probs</span><span class="p">)</span></code>
+
+<a href="#fairscope.nlp.macro_auc" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Macro one-vs-rest AUC. Requires every class present in <code>y_true</code>.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="fairscope.nlp.macro_f1" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">macro_f1</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">probs</span><span class="p">)</span></code>
+
+<a href="#fairscope.nlp.macro_f1" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Macro F1 of the argmax predictions.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="fairscope.nlp.multiclass_ece" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">multiclass_ece</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">probs</span><span class="p">,</span> <span class="n">n_bins</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span></code>
+
+<a href="#fairscope.nlp.multiclass_ece" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Confidence-accuracy Expected Calibration Error (Guo et al. 2017; CPFE paper):
+<code>ECE = sum_m (|B_m|/n) * |acc(B_m) - conf(B_m)|</code> with <code>conf = max prob</code> and
+<code>acc = top-1 correct</code>.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="fairscope.nlp.per_class_disparate_impact" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">per_class_disparate_impact</span><span class="p">(</span><span class="n">probs_a</span><span class="p">,</span> <span class="n">probs_b</span><span class="p">,</span> <span class="n">n_classes</span><span class="p">)</span></code>
+
+<a href="#fairscope.nlp.per_class_disparate_impact" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Symmetric DI per class between two platforms, reusing <code>core.disparate_impact</code> with
+the class binarized (<code>pred == c</code>) and platform as the two-group label.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="fairscope.nlp.per_class_equalized_odds" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">per_class_equalized_odds</span><span class="p">(</span><span class="n">y_a</span><span class="p">,</span> <span class="n">probs_a</span><span class="p">,</span> <span class="n">y_b</span><span class="p">,</span> <span class="n">probs_b</span><span class="p">,</span> <span class="n">n_classes</span><span class="p">)</span></code>
+
+<a href="#fairscope.nlp.per_class_equalized_odds" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>EOD per class between two platforms (<code>|TPR_c(A) - TPR_c(B)|</code>), reusing
+<code>core.equalized_odds_difference</code>. A class with no positive labels in a platform is
+returned as <code>None</code> (TPR undefined).</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="fairscope.nlp.bootstrap_macro_auc_test" class="doc doc-heading">
+            <code class="highlight language-python"><span class="n">bootstrap_macro_auc_test</span><span class="p">(</span><span class="n">y_a</span><span class="p">,</span> <span class="n">probs_a</span><span class="p">,</span> <span class="n">y_b</span><span class="p">,</span> <span class="n">probs_b</span><span class="p">,</span> <span class="n">n_boot</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+<a href="#fairscope.nlp.bootstrap_macro_auc_test" class="headerlink" title="Permanent link">&para;</a></h3>
+
+
+    <div class="doc doc-contents ">
+
+        <p>Compare macro AUC across two platforms (independent test sets).</p>
+<p>Each platform's macro-AUC standard error is estimated by a class-stratified bootstrap;
+the errors are combined for an unpaired z-test. Returns a dict: auc_a, auc_b, delta,
+se, z, p_value, n_boot.</p>
+
+
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.sections", "content.code.copy", "content.code.annotate"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>
