@@ -142,6 +142,13 @@ class CPFEReport:
             di = self.equity.get(name, {}).get("disparate_impact", {})
             violations = sorted(c for c, v in di.items() if v < DI_FOUR_FIFTHS)
             severe = sorted(c for c, v in di.items() if v < DI_SEVERE)
+            if violations:
+                equity_reason = (
+                    f"four-fifths violations (DI<{DI_FOUR_FIFTHS}) for classes "
+                    f"{violations}; severe (<{DI_SEVERE}) {severe}"
+                )
+            else:
+                equity_reason = "no four-fifths violations"
             axes = {
                 "discrimination": {
                     "pass": drop <= self.delta_auc_pct_max,
@@ -164,12 +171,7 @@ class CPFEReport:
                     "value": {"violations": violations, "severe": severe},
                     "threshold": DI_FOUR_FIFTHS,
                     "source": "P4 four-fifths rule (Sec 4.4)",
-                    "reason": (
-                        f"four-fifths violations (DI<{DI_FOUR_FIFTHS}) for classes "
-                        f"{violations}; severe (<{DI_SEVERE}) {severe}"
-                    )
-                    if violations
-                    else "no four-fifths violations",
+                    "reason": equity_reason,
                 },
             }
             verdict[name] = {"ready": all(a["pass"] for a in axes.values()), "axes": axes}
