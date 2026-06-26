@@ -9,7 +9,13 @@ adhere to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ### Added
 - Phase 0 public skeleton: package layout, MIT `LICENSE`, `pyproject.toml` (hatchling),
   GitHub Actions CI (matrix py3.9–3.12), `pre-commit` config, `CITATION.cff`, README
-  skeleton, and the v2 design specification in `docs/specs/`.
+  skeleton, and the design overview in `docs/DESIGN.md`.
+- `fairscope.core`: DeLong AUC confidence intervals and paired/unpaired tests
+  (`delong.py`), a stratified bootstrap AUC test (`bootstrap.py`), Expected/Maximum
+  Calibration Error with reliability diagrams plus temperature-scaling and isotonic
+  recalibration (`calibration.py`), Bonferroni and Benjamini–Hochberg corrections
+  (`correction.py`), and subgroup metrics with symmetric disparate impact and equalized
+  odds difference (`metrics.py`). 100% test coverage on `core/`.
 
 _No releases yet. The first PyPI release (v0.1.0) is planned for Phase 2 once `core/`
 and `healthcare/` are implemented and tested._
