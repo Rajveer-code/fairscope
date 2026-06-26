@@ -1,5 +1,8 @@
+import os
+
 import matplotlib
 import numpy as np
+import pandas as pd
 import pytest
 
 matplotlib.use("Agg")
@@ -101,3 +104,27 @@ def test_single_class_subgroup_raises_attribute_named_error():
     age = np.array(["young", "young", "young", "young", "old", "old", "old", "old"])
     with pytest.raises(ValueError, match="age"):
         HealthcareFairnessAudit.from_scores(y, s, {"age": age}).run()
+
+
+FIXTURE = os.path.join(os.path.dirname(__file__), "fixtures", "healthcare_subsample.csv")
+
+
+def test_golden_fixture_reproduces_published_direction_and_magnitude():
+    """Regression test on a SYNTHETIC subsample (NOT real BRFSS data). Asserts the published
+    DIRECTION (elderly AUC < young) and APPROXIMATE MAGNITUDE (gap ~= 0.135 within a
+    tolerance band), plus significance. The published p<0.001 was computed on n=1,285,783;
+    this fixture is ~1,200 synthetic rows, so significance is asserted at the conservative
+    threshold p<0.01. See tests/fixtures/README.md."""
+    df = pd.read_csv(FIXTURE, comment="#")
+    report = HealthcareFairnessAudit.from_scores(
+        df["y_true"].to_numpy(),
+        df["y_score"].to_numpy(),
+        {"age_group": df["age_group"].to_numpy()},
+    ).run()
+    out = report.to_dataframe().set_index("group")
+    auc_young = out.loc["young", "auc"]
+    auc_elderly = out.loc["elderly", "auc"]
+    gap = auc_young - auc_elderly
+    assert auc_elderly < auc_young  # direction
+    assert 0.105 <= gap <= 0.165  # approximate magnitude (published 0.135)
+    assert report.results["age_group"]["p_adjusted"][0] < 0.01  # significance
