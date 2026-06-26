@@ -1,0 +1,41 @@
+site_name: fairscope
+site_description: Subgroup-stratified, calibration-aware fairness auditing for ML models
+repo_url: https://github.com/Rajveer-code/fairscope
+repo_name: Rajveer-code/fairscope
+
+theme:
+  name: material
+  features:
+    - navigation.sections
+    - content.code.copy
+    - content.code.annotate
+
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          options:
+            docstring_style: numpy
+            show_source: false
+            show_root_heading: true
+            members_order: source
+
+nav:
+  - Home: index.md
+  - Getting started: getting-started.md
+  - CPFE protocol: cpfe.md
+  - Healthcare audit: healthcare.md
+  - API reference: api.md
+
+markdown_extensions:
+  - admonition
+  - pymdownx.superfences
+  - toc:
+      permalink: true
+
+# Internal planning docs and the design/issues files must NOT be published to the site.
+exclude_docs: |
+  internal/
+  DESIGN.md
+  planned-issues.md
