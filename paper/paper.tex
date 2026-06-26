@@ -1,0 +1,257 @@
+% fairscope software paper -- DRAFT for review, not submitted.
+% arXiv categories: cs.LG (primary), cs.CY (cross-list).
+% Compile: pdflatex paper.tex
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{url}
+\usepackage[hidelinks]{hyperref}
+
+\title{\texttt{fairscope}: subgroup-stratified, calibration-aware fairness\\
+auditing for machine-learning models}
+\author{Rajveer Singh Pall\thanks{ORCID: \url{https://orcid.org/0009-0001-6762-6134}}}
+\date{June 27, 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Fairness audits in applied machine learning repeatedly require statistical machinery that
+mainstream toolkits do not expose as first-class, subgroup-stratified functions: confidence
+intervals for per-subgroup AUC, per-subgroup calibration error, and significance tests for
+differences in subgroup performance. We present \texttt{fairscope}, an open-source,
+test-driven Python library that packages these peer-reviewed methods behind a small, typed
+API, and introduces one novel module---a five-axis \emph{Cross-Platform Fairness Evaluation}
+(CPFE) protocol that jointly characterises discriminative, calibration,
+statistical-significance, prediction-equity, and attribution-stability failures when a model
+is deployed on a distribution different from the one it was trained on. \texttt{fairscope} is
+an \emph{engineering} contribution grounded in prior published work: every statistical
+primitive ports a documented method and cites its source; only the CPFE protocol is presented
+as novel. The library ships with 100\% line coverage on its statistical core, continuous
+integration across Python 3.9--3.12, and small committed fixtures that regression-test the
+\emph{direction and approximate magnitude} of published findings. It is available on PyPI
+(\texttt{pip install fairscope}) under the MIT license.
+\end{abstract}
+
+\section{The gap}
+
+Two widely used fairness toolkits anchor current practice. AIF360~\cite{aif360} provides a
+broad set of group-fairness metrics and bias-mitigation algorithms; Fairlearn~\cite{fairlearn}
+focuses on constraint-based mitigation and disparity metrics. Both are valuable, and
+\texttt{fairscope} is complementary rather than competitive. However, recurring needs in
+applied audits are not available in either as first-class, subgroup-stratified functions:
+
+\begin{itemize}
+  \item \textbf{Uncertainty on subgroup discrimination.} Reporting a per-subgroup AUC without
+    a confidence interval invites over-interpretation of noise. The DeLong
+    estimator~\cite{delong} gives an analytic AUC variance, but neither toolkit exposes a
+    per-subgroup DeLong interval as a primary function.
+  \item \textbf{Calibration parity.} Two subgroups can have equal accuracy yet unequal
+    calibration. Per-subgroup Expected Calibration Error (ECE) is not a first-class output of
+    either toolkit.
+  \item \textbf{Significance of subgroup gaps.} Deciding whether an observed subgroup gap is
+    distinguishable from sampling noise requires a paired or unpaired test with
+    multiple-comparison control; this is left to the user.
+\end{itemize}
+
+A 2025 toolbox, \emph{meval}~\cite{meval}, moves in a similar direction by providing
+fine-grained, stratified performance analysis, and we cite it as the most closely related
+recent work; the precise overlap should be assessed against its current release.
+\texttt{fairscope}'s distinguishing surface is the combination of subgroup DeLong intervals,
+per-subgroup calibration and \emph{recalibration}, multiple-comparison-corrected significance,
+the five-axis cross-platform protocol, and a per-node federated audit, packaged as a single
+tested library.
+
+\emph{Verification note: the capability comparison in Section~\ref{sec:compare} is to be
+re-confirmed against the installed versions of AIF360 and Fairlearn, and meval's documented
+coverage, before submission. Claims that no longer hold will be softened or removed.}
+
+\section{Design}
+
+\texttt{fairscope} is organised as a small set of focused modules built on NumPy, SciPy, and
+scikit-learn, with optional heavy dependencies isolated behind extras: \texttt{core/}
+(\texttt{delong}, \texttt{bootstrap}, \texttt{calibration} with recalibration,
+\texttt{correction}, \texttt{metrics}); \texttt{healthcare/} (a one-call clinical fairness
+audit and report); \texttt{nlp/} (the CPFE protocol and gradient-saliency attribution
+stability); and the planned \texttt{lending/} and \texttt{federated/} modules.
+
+\paragraph{Statistical primitives, each citing its source.} \texttt{delong} implements AUC
+confidence intervals and paired/unpaired tests using the $O(n \log n)$ midrank algorithm of
+Sun and Xu~\cite{sunxu} for the DeLong~\cite{delong} variance; \texttt{bootstrap} provides a
+stratified bootstrap AUC-difference test; \texttt{calibration} computes ECE, maximum
+calibration error, and reliability diagrams, and exposes a subgroup-stratified \emph{interface}
+to two standard recalibration methods---temperature scaling~\cite{guo} and isotonic
+regression~\cite{zadrozny} (the methods are standard; the contribution is the per-subgroup
+interface and pre/post-ECE reporting); \texttt{correction} implements Bonferroni and
+Benjamini--Hochberg~\cite{bh} corrections, validated to match \texttt{statsmodels};
+\texttt{metrics} provides subgroup AUC/Brier/F1, symmetric disparate impact, and
+equalized-odds difference.
+
+\paragraph{Engineering discipline.} Every public function has full type hints, a NumPy-style
+docstring with a runnable example, explicit input validation (no silent failures: an AUC on a
+single-class subgroup raises rather than returning a meaningless value), and a fixed
+\texttt{random\_state} wherever results are stochastic. Regression tests are the project's
+credibility anchor: where an authoritative reference value exists (DeLong's worked example;
+\texttt{statsmodels} multiple-testing routines), tests assert against it. The statistical core
+has 100\% line coverage; CI runs pytest, coverage, ruff, and black across Python 3.9--3.12.
+Heavy NLP dependencies (torch, transformers, captum) install only via \texttt{pip install
+fairscope[nlp]}; SHAP via \texttt{fairscope[shap]}. Datasets are not bundled.
+
+\section{The CPFE protocol}
+
+The one novel module is the \textbf{Cross-Platform Fairness Evaluation (CPFE)} protocol.
+Models trained on one data source and deployed on another can degrade in ways a single AUC
+number cannot distinguish. CPFE evaluates five orthogonal axes, treating each non-training
+platform against a reference:
+
+\begin{enumerate}
+  \item \textbf{Discriminative performance}---macro one-vs-rest AUC and macro F1, within- and
+    cross-platform, with the relative change $\Delta$AUC\%.
+  \item \textbf{Calibration}---confidence--accuracy ECE per platform (the standard multiclass
+    ECE of Guo et al.~\cite{guo}).
+  \item \textbf{Statistical significance}---a stratified \emph{bootstrap} standard error on the
+    macro-AUC difference between platforms (independent test sets), with Bonferroni correction
+    across platform pairs.
+  \item \textbf{Prediction equity}---symmetric disparate impact and equalized-odds difference
+    per class, treating platform membership as the group.
+  \item \textbf{Attribution stability}---Jaccard overlap of the top-$K$ gradient-saliency
+    token sets across platforms, $s_i = \|\partial P(y\,|\,x)/\partial E_i\|_2$,
+    $K \in \{5,10,15,20\}$.
+\end{enumerate}
+
+A \texttt{CPFEReport.deployment\_readiness()} method returns a structured per-axis screening
+diagnostic. It is explicitly a diagnostic, not a deployment decision or compliance verdict.
+Each axis reports its value, the threshold applied, and the threshold's \emph{source}: the
+disparate-impact four-fifths rule and the calibration bands are reference values stated in the
+underlying study; the discrimination $\Delta$AUC limit is an \emph{illustrative,
+user-configurable} parameter, because that study explicitly declines to set a validated
+$\Delta$AUC decision threshold.
+
+\section{Worked replications}
+
+We report two demonstrations. The first reproduces a \emph{published} finding's direction and
+magnitude; the second exercises the CPFE protocol on a synthetic shift. \textbf{No real
+restricted datasets or trained models are distributed; committed fixtures are small and
+explicitly labelled.}
+
+\paragraph{4.1 Healthcare audit (direction + magnitude of a published result).} The author's
+published diabetes study~\cite{diabetes} reports, on an external validation cohort (BRFSS,
+$n=1{,}285{,}783$), a substantially lower AUC for elderly adults ($\geq 60$) than for younger
+adults---$0.607$ versus $0.742$, a gap of $0.135$ with $p < 0.001$. \texttt{fairscope}'s
+\texttt{HealthcareFairnessAudit} is regression-tested on a \emph{synthetic fixture calibrated
+to reproduce that direction and approximate magnitude} (it is not real BRFSS data and does not
+reproduce the full run): the audit recovers a young-vs-elderly AUC gap of $0.133$ (young
+$0.764$, elderly $0.631$) with a Bonferroni-adjusted $p < 0.01$. The test asserts the gap
+within a tolerance band and a conservative significance threshold, and documents that the
+published $p < 0.001$ was obtained on the full $1.28$M-row cohort, not the fixture.
+
+\paragraph{4.2 CPFE protocol (synthetic cross-platform shift).} On a synthetic two-platform
+fixture---a high-signal reference platform and a platform with an injected
+over-confident-but-wrong shift---the protocol's five axes behave as designed (these are the
+library's actual outputs on the fixture, reproducible via \texttt{paper/cpfe\_demo.py}, seed
+$20260627$, not real-world measurements): macro-AUC falls from $0.997$ to $0.341$
+($\Delta$AUC $-65.8\%$); macro-F1 falls from $0.958$ to $0.019$; ECE rises from $0.172$ to
+$0.776$; the bootstrap macro-AUC difference is significant (Bonferroni-adjusted $p \ll 0.001$,
+$z = 163.2$); and a synthetic attribution comparison with near-disjoint token sets yields
+$J@5 = 0.11$. Notably, the prediction-equity axis shows \emph{no} four-fifths violation on this
+fixture (per-class disparate impact $0.97$--$0.99$), because the degraded predictions remain
+roughly proportional across classes---illustrating that the five axes capture genuinely
+distinct failure modes, and that a single discrimination metric would have masked which
+dimensions failed.
+
+\section{Comparison with existing toolkits}
+\label{sec:compare}
+
+\emph{Provisional---to be re-verified against installed package versions before submission, per
+Section~1.}
+
+\begin{table}[h]
+\centering
+\begin{tabular}{lccc}
+\toprule
+Capability & AIF360 & Fairlearn & \texttt{fairscope} \\
+\midrule
+Per-subgroup AUC with DeLong CI & not first-class & not first-class & yes \\
+Per-subgroup Expected Calibration Error & not first-class & not first-class & yes \\
+Subgroup significance test (+ correction) & not first-class & not first-class & yes \\
+Subgroup-stratified recalibration interface & partial & partial & yes \\
+Cross-platform five-axis protocol (CPFE) & no & no & yes (novel) \\
+Per-node / federated audit & no & no & planned \\
+Bias-mitigation algorithms & yes & yes & out of scope \\
+\bottomrule
+\end{tabular}
+\caption{Provisional capability comparison (see verification note).}
+\end{table}
+
+\texttt{fairscope} does not implement bias-mitigation or constraint-based training; for those,
+AIF360 and Fairlearn remain the appropriate tools. \texttt{fairscope}'s scope is rigorous,
+uncertainty-aware \emph{measurement}.
+
+\section{Limitations}
+
+\begin{itemize}
+  \item The committed healthcare fixture is \textbf{synthetic}, calibrated to a published
+    direction and magnitude; it is a pipeline regression test, not an empirical result.
+  \item CPFE's per-axis screening thresholds are descriptive: the disparate-impact and
+    calibration bands are reference values from a single study, and the $\Delta$AUC limit is
+    illustrative and user-configurable, not a validated decision threshold. None should be
+    treated as regulatory criteria.
+  \item Gradient-saliency attribution is a local linear approximation and can be unstable
+    across seeds; the Jaccard axis should be read as consistent-with-instability, not as
+    definitive.
+  \item The capability comparison (Section~\ref{sec:compare}) requires confirmation against
+    current toolkit releases before publication.
+\end{itemize}
+
+\section{Availability}
+
+Source: \url{https://github.com/Rajveer-code/fairscope} (MIT license). Install: \texttt{pip
+install fairscope}; NLP extras via \texttt{pip install fairscope[nlp]}. The release is archived
+and citable via \texttt{CITATION.cff}. Continuous integration, 100\% statistical-core coverage,
+and a public, incremental commit history accompany the code.
+
+\paragraph{Note on the CPFE source study.} The five-axis design is the author's; the
+cross-platform mental-health NLP study that motivates it is under review, and specific
+unpublished figures from it are intentionally not cited here. The citation will be added once
+that paper is public.
+
+\begin{thebibliography}{9}
+
+\bibitem{aif360} Bellamy, R.~K.~E., et al. (2019). AI Fairness 360: An extensible toolkit for
+detecting and mitigating algorithmic bias. \emph{IBM Journal of Research and Development},
+63(4/5). arXiv:1810.01943.
+
+\bibitem{bh} Benjamini, Y., \& Hochberg, Y. (1995). Controlling the false discovery rate.
+\emph{Journal of the Royal Statistical Society: Series B}, 57(1), 289--300.
+
+\bibitem{fairlearn} Bird, S., et al. (2020). Fairlearn: A toolkit for assessing and improving
+fairness in AI. \emph{Microsoft Technical Report} MSR-TR-2020-32.
+
+\bibitem{delong} DeLong, E.~R., DeLong, D.~M., \& Clarke-Pearson, D.~L. (1988). Comparing the
+areas under two or more correlated receiver operating characteristic curves: a nonparametric
+approach. \emph{Biometrics}, 44(3), 837--845.
+
+\bibitem{guo} Guo, C., Pleiss, G., Sun, Y., \& Weinberger, K.~Q. (2017). On calibration of
+modern neural networks. \emph{ICML}, PMLR 70:1321--1330.
+
+\bibitem{meval} Sutariya, D., \& Petersen, E. (2025). meval: A Statistical Toolbox for
+Fine-Grained Model Performance Analysis. arXiv:2512.17409.
+
+\bibitem{diabetes} Pall, R.~S., Yadav, S., Bhalerao, S., Sahu, S., Ahluwalia, R., \&
+Awadhiya, B. (2026). Comprehensive Evaluation of Machine Learning for Type~2 Diabetes Risk
+Prediction: Large-Scale External Validation and Fairness Analysis. \emph{IEEE CIPHER 2026}.
+DOI: 10.1109/CIPHER70417.2026.11523789.
+
+\bibitem{sunxu} Sun, X., \& Xu, W. (2014). Fast implementation of DeLong's algorithm for
+comparing the areas under correlated receiver operating characteristic curves. \emph{IEEE
+Signal Processing Letters}, 21(11), 1389--1393.
+
+\bibitem{zadrozny} Zadrozny, B., \& Elkan, C. (2002). Transforming classifier scores into
+accurate multiclass probability estimates. \emph{KDD}, 694--699.
+
+\end{thebibliography}
+
+\end{document}
