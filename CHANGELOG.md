@@ -6,6 +6,15 @@ adhere to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Added
+- `fairscope.nlp`: the five-axis Cross-Platform Fairness Evaluation (CPFE) protocol —
+  `CPFEProtocol` + `CPFEReport` (macro AUC/F1 and ΔAUC%, multiclass ECE, bootstrap
+  macro-AUC significance with Bonferroni correction, per-class disparate impact and
+  equalized odds), a structured per-axis `deployment_readiness()` diagnostic using P4's
+  stated reference bands (with an illustrative, configurable ΔAUC limit), and
+  gradient-saliency Jaccard attribution stability (`token_saliency` behind
+  `fairscope[nlp]`). Routed via `FairnessAudit(model, domain="nlp", ...)`.
+
 ## [0.1.0] - 2026-06-26
 
 ### Added
