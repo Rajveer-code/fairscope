@@ -22,9 +22,9 @@ keywords:
   - DeLong
   - subgroup analysis
   - model auditing
-# Preprints below have no final venue yet; DOIs and identifiers are added on publication.
 references:
-  - type: article
+  # Published, final.
+  - type: conference-paper
     title: >-
       Comprehensive Evaluation of Machine Learning for Type 2 Diabetes Risk Prediction:
       Large-Scale External Validation and Fairness Analysis
@@ -41,44 +41,40 @@ references:
         given-names: Ritu
       - family-names: Awadhiya
         given-names: Bhaskar
-    year: 2025
-    notes: "Published, IEEE (2025)."
+    year: 2026
+    collection-title: "IEEE CIPHER 2026"
+    doi: "10.1109/CIPHER70417.2026.11523789"
+  # Preprints (no final venue).
   - type: article
-    title: >-
-      Who Bears the Burden? Heterogeneous Racial Approval Differentials in U.S. Mortgage
-      Lending: Evidence from Causal Forest Double Machine Learning on 42 Million HMDA
-      Applications, 2020-2024
+    title: "IndiaFinBench"
     authors:
       - family-names: Pall
         given-names: Rajveer Singh
     year: 2026
-    notes: "Preprint; under review."
+    url: "https://arxiv.org/abs/2604.19298"
+    identifiers:
+      - type: other
+        value: "arXiv:2604.19298 [cs.CL]"
+    notes: "Preprint."
   - type: article
-    title: >-
-      Persistent Racial Disparities in U.S. Mortgage Approval: Evidence from 42 Million
-      Applications, 2020-2024
+    title: "When the Gate Stays Closed"
     authors:
       - family-names: Pall
         given-names: Rajveer Singh
     year: 2026
-    notes: "Preprint; under review."
+    url: "https://ssrn.com/abstract=6742700"
+    identifiers:
+      - type: other
+        value: "SSRN: 6742700"
+    notes: "Preprint."
   - type: article
-    title: >-
-      Cross-Platform Generalisation Failure in Mental Health Natural Language Processing:
-      A Five-Axis Fairness Audit of Transformer Models on Social Media
-    authors:
-      - family-names: Pall
-        given-names: Rajveer Singh
-      - family-names: Yadav
-        given-names: Sameer
-    year: 2026
-    notes: "Preprint; under review."
-  - type: article
-    title: >-
-      Privacy-Preserving Federated Learning for Diabetes Risk Prediction Across
-      Demographically Heterogeneous Hospital Nodes
+    title: "The Transaction Cost Trap"
     authors:
       - family-names: Pall
         given-names: Rajveer Singh
     year: 2026
-    notes: "Preprint; under review."
+    url: "https://ssrn.com/abstract=6422358"
+    identifiers:
+      - type: other
+        value: "SSRN: 6422358"
+    notes: "Preprint."
