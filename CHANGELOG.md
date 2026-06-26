@@ -16,6 +16,13 @@ adhere to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   recalibration (`calibration.py`), Bonferroni and Benjamini–Hochberg corrections
   (`correction.py`), and subgroup metrics with symmetric disparate impact and equalized
   odds difference (`metrics.py`). 100% test coverage on `core/`.
+- `fairscope.healthcare`: `HealthcareFairnessAudit` + `HealthcareReport` — a one-call
+  clinical fairness audit composing `core/` (per-subgroup DeLong CIs, ECE, Bonferroni-
+  corrected pairwise tests, Brier/F1), with report tables, an AUC forest plot,
+  reliability-curve plots, multi-page PDF export (matplotlib only), and an optional SHAP
+  summary (`fairscope[shap]`). A synthetic, seed-generated golden fixture regression-tests
+  the published direction and approximate magnitude (elderly < young AUC, gap ≈ 0.135).
+- Top-level `FairnessAudit(model, domain=...)` dispatcher (healthcare implemented).
 
 _No releases yet. The first PyPI release (v0.1.0) is planned for Phase 2 once `core/`
 and `healthcare/` are implemented and tested._
