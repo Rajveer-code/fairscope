@@ -8,7 +8,7 @@ Cross-Platform Fairness Evaluation (CPFE) protocol, and per-node federated audit
 See ``docs/DESIGN.md`` for the methods, API design, and roadmap.
 """
 
-__version__ = "0.0.1.dev0"
+__version__ = "0.1.0"
 
 __all__ = ["FairnessAudit", "__version__"]
 

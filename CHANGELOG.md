@@ -6,6 +6,8 @@ adhere to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [0.1.0] - 2026-06-26
+
 ### Added
 - Phase 0 public skeleton: package layout, MIT `LICENSE`, `pyproject.toml` (hatchling),
   GitHub Actions CI (matrix py3.9–3.12), `pre-commit` config, `CITATION.cff`, README
@@ -24,5 +26,4 @@ adhere to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   the published direction and approximate magnitude (elderly < young AUC, gap ≈ 0.135).
 - Top-level `FairnessAudit(model, domain=...)` dispatcher (healthcare implemented).
 
-_No releases yet. The first PyPI release (v0.1.0) is planned for Phase 2 once `core/`
-and `healthcare/` are implemented and tested._
+[0.1.0]: https://github.com/Rajveer-code/fairscope/releases/tag/v0.1.0
