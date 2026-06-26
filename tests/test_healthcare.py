@@ -128,3 +128,60 @@ def test_golden_fixture_reproduces_published_direction_and_magnitude():
     assert auc_elderly < auc_young  # direction
     assert 0.105 <= gap <= 0.165  # approximate magnitude (published 0.135)
     assert report.results["age_group"]["p_adjusted"][0] < 0.01  # significance
+
+
+def _small_report():
+    rng = np.random.default_rng(7)
+    y, s, age = _planted(rng, 300, 1.2, 0.5)
+    return HealthcareFairnessAudit.from_scores(y, s, {"age": age}).run()
+
+
+def test_plot_auc_forest_returns_figure():
+    report = _small_report()
+    fig = report.plot_auc_forest()
+    assert fig is not None
+    assert len(fig.axes) >= 1
+    # attribute-filter path
+    fig2 = report.plot_auc_forest(attribute="age")
+    assert fig2 is not None
+
+
+def test_plot_calibration_returns_real_reliability_figure():
+    fig = _small_report().plot_calibration()
+    assert fig is not None
+    assert len(fig.axes) >= 1
+    # reliability_diagram draws the perfect-calibration diagonal plus a curve per group
+    assert len(fig.axes[0].lines) >= 2
+
+
+def test_to_pdf_writes_nonempty_file(tmp_path):
+    path = tmp_path / "report.pdf"
+    _small_report().to_pdf(str(path))
+    assert path.exists()
+    assert path.stat().st_size > 0
+
+
+def test_shap_summary_without_shap_raises_informative(monkeypatch):
+    import builtins
+
+    real_import = builtins.__import__
+
+    def _no_shap(name, *args, **kwargs):
+        if name == "shap":
+            raise ImportError("shap not installed")
+        return real_import(name, *args, **kwargs)
+
+    monkeypatch.setattr(builtins, "__import__", _no_shap)
+
+    rng = np.random.default_rng(8)
+    X = rng.normal(size=(50, 3))
+    y = (X[:, 0] > 0).astype(int)
+
+    class _Stub:
+        def predict_proba(self, X):
+            p = 1.0 / (1.0 + np.exp(-X[:, 0]))
+            return np.column_stack([1 - p, p])
+
+    audit = HealthcareFairnessAudit(_Stub(), X, y, {"g": np.array(["a"] * 25 + ["b"] * 25)})
+    with pytest.raises(ImportError, match=r"fairscope\[shap\]"):
+        audit.shap_summary()

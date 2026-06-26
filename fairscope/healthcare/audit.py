@@ -99,6 +99,18 @@ class HealthcareFairnessAudit:
             results, y, s, self.protected_attr, alpha=self.alpha, n_bins=self.n_bins
         )
 
+    def shap_summary(self, max_samples=200):
+        """Mean absolute SHAP value per feature (optional). Requires
+        ``pip install fairscope[shap]`` and a model (not ``from_scores``). Returns a dict
+        ``{feature_index: mean_abs_shap}``."""
+        try:
+            import shap  # noqa: F401
+        except ImportError as exc:
+            raise ImportError(
+                "SHAP summary requires the optional dependency: pip install fairscope[shap]"
+            ) from exc
+        return _shap_mean_abs(self.model, self.X_test, max_samples)  # pragma: no cover
+
 
 class HealthcareReport:
     """Holds audit results and the raw (y, score, groups) needed to render reliability
@@ -148,3 +160,68 @@ class HealthcareReport:
                 if rej:
                     lines.append(f"  {a} vs {b}: Bonferroni-adjusted p={padj:.4g} (significant)")
         return "\n".join(lines)
+
+    def plot_auc_forest(self, attribute=None):
+        """Forest plot of per-subgroup AUC with DeLong 95% CIs. Returns a Figure."""
+        import matplotlib.pyplot as plt
+
+        df = self.to_dataframe()
+        if attribute is not None:
+            df = df[df.attribute == attribute]
+        labels = [f"{a}:{g}" for a, g in zip(df.attribute, df.group)]
+        ys = np.arange(len(df))
+        xerr = np.vstack([df.auc - df.ci_lower, df.ci_upper - df.auc])
+        fig, ax = plt.subplots(figsize=(6, 0.5 * len(df) + 1.5))
+        ax.errorbar(df.auc, ys, xerr=xerr, fmt="o", capsize=3)
+        ax.set_yticks(ys)
+        ax.set_yticklabels(labels)
+        ax.set_xlabel("AUC (95% DeLong CI)")
+        ax.axvline(0.5, color="gray", linestyle="--", linewidth=1)
+        ax.set_title("Per-subgroup discrimination")
+        fig.tight_layout()
+        return fig
+
+    def plot_calibration(self, attribute=None):
+        """Reliability curves per subgroup for one attribute, drawn with
+        ``core.reliability_diagram``. Returns a Figure."""
+        from ..core import reliability_diagram
+
+        attr = attribute if attribute is not None else next(iter(self.protected_attr))
+        groups = np.asarray(self.protected_attr[attr])
+        return reliability_diagram(self.y_true, self.y_score, groups=groups, n_bins=self.n_bins)
+
+    def to_pdf(self, path):
+        """Write a multi-page PDF: summary, AUC forest, and one calibration page per
+        attribute. Uses matplotlib only (no extra dependency)."""
+        import matplotlib.pyplot as plt
+        from matplotlib.backends.backend_pdf import PdfPages
+
+        with PdfPages(path) as pdf:
+            fig0, ax = plt.subplots(figsize=(8.5, 11))
+            ax.axis("off")
+            ax.text(0.02, 0.98, self.summary(), family="monospace", va="top", fontsize=8)
+            pdf.savefig(fig0)
+            plt.close(fig0)
+
+            forest = self.plot_auc_forest()
+            pdf.savefig(forest)
+            plt.close(forest)
+
+            for attr in self.protected_attr:
+                cal = self.plot_calibration(attr)
+                cal.axes[0].set_title(f"Calibration: {attr}")
+                pdf.savefig(cal)
+                plt.close(cal)
+
+
+def _shap_mean_abs(model, X_test, max_samples):  # pragma: no cover - needs optional shap
+    import shap
+
+    if model is None:
+        raise ValueError("shap_summary requires a model (not from_scores).")
+    X = np.asarray(X_test)[:max_samples]
+    explainer = shap.Explainer(model.predict_proba, X)
+    values = explainer(X).values
+    vals = np.abs(values).mean(axis=0)
+    vals = vals[:, 1] if vals.ndim == 2 else vals
+    return {i: float(v) for i, v in enumerate(np.ravel(vals))}
