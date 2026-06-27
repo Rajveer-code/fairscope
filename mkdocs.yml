@@ -26,6 +26,8 @@ nav:
   - Getting started: getting-started.md
   - CPFE protocol: cpfe.md
   - Healthcare audit: healthcare.md
+  - Federated audit: federated.md
+  - Lending audit: lending.md
   - API reference: api.md
 
 markdown_extensions:

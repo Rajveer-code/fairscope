@@ -65,8 +65,14 @@ class LendingFairnessAudit:
         outcome : binary array; defaults to the ``approved`` outcomes.
         model_y, model_t : nuisance estimators; default to random forests.
 
-        Returns ``{"ate", "effect", "effect_interval"}``. Requires the optional
-        dependency: ``pip install fairscope[lending]``.
+        Returns
+        -------
+        dict
+            Keys ``ate``, ``effect``, and ``effect_interval``.
+
+        Notes
+        -----
+        Requires the optional dependency ``econml`` (``pip install fairscope[lending]``).
         """
         try:
             import econml.dml  # noqa: F401

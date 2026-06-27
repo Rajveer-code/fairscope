@@ -17,3 +17,11 @@ Auto-generated from the package docstrings.
 ## `fairscope.nlp`
 
 ::: fairscope.nlp
+
+## `fairscope.federated`
+
+::: fairscope.federated.audit
+
+## `fairscope.lending`
+
+::: fairscope.lending.audit
