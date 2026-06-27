@@ -88,3 +88,24 @@ def test_recalibrate_unknown_method_raises():
     report = FederatedFairnessAudit(_nodes(rng)).run()
     with pytest.raises(ValueError, match="temperature"):
         report.recalibrate(method="platt")
+
+
+def _report(seed=6):
+    rng = np.random.default_rng(seed)
+    return FederatedFairnessAudit(_nodes(rng)).run()
+
+
+def test_plot_auc_forest_returns_figure():
+    fig = _report().plot_auc_forest()
+    assert fig is not None and len(fig.axes) >= 1
+
+
+def test_plot_calibration_returns_figure():
+    fig = _report().plot_calibration()
+    assert fig is not None and len(fig.axes) >= 1
+
+
+def test_to_pdf_writes_file(tmp_path):
+    path = tmp_path / "federated_report.pdf"
+    _report().to_pdf(str(path))
+    assert path.exists() and path.stat().st_size > 0

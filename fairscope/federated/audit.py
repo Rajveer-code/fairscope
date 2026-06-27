@@ -147,6 +147,63 @@ class FederatedReport:
             out[node] = {"ece_pre": float(pre), "ece_post": float(post)}
         return out
 
+    def plot_auc_forest(self):
+        """Forest plot of per-node AUC with DeLong 95% CIs. Returns a Figure."""
+        import matplotlib.pyplot as plt
+
+        df = self.to_dataframe()
+        ys = np.arange(len(df))
+        xerr = np.vstack([df.auc - df.ci_lower, df.ci_upper - df.auc])
+        fig, ax = plt.subplots(figsize=(6, 0.5 * len(df) + 1.5))
+        ax.errorbar(df.auc, ys, xerr=xerr, fmt="o", capsize=3)
+        ax.set_yticks(ys)
+        ax.set_yticklabels(df.node)
+        ax.set_xlabel("AUC (95% DeLong CI)")
+        ax.axvline(0.5, color="gray", linestyle="--", linewidth=1)
+        ax.set_title("Per-node discrimination")
+        fig.tight_layout()
+        return fig
+
+    def plot_calibration(self):
+        """Per-node reliability curves drawn with ``core.reliability_diagram``
+        (federated retains each node's (y, score), so these are true curves).
+        Returns a Figure."""
+        from ..core import reliability_diagram
+
+        ys, ss, labels = [], [], []
+        for node, (y, s) in self._node_data.items():
+            ys.append(np.asarray(y))
+            ss.append(np.asarray(s))
+            labels.append(np.full(len(y), node))
+        return reliability_diagram(
+            np.concatenate(ys),
+            np.concatenate(ss),
+            groups=np.concatenate(labels),
+            n_bins=self.n_bins,
+        )
+
+    def to_pdf(self, path):
+        """Write a multi-page PDF: summary, per-node AUC forest, per-node calibration.
+        Uses matplotlib only (no extra dependency)."""
+        import matplotlib.pyplot as plt
+        from matplotlib.backends.backend_pdf import PdfPages
+
+        with PdfPages(path) as pdf:
+            fig0, ax = plt.subplots(figsize=(8.5, 11))
+            ax.axis("off")
+            ax.text(0.02, 0.98, self.summary(), family="monospace", va="top", fontsize=8)
+            pdf.savefig(fig0)
+            plt.close(fig0)
+
+            forest = self.plot_auc_forest()
+            pdf.savefig(forest)
+            plt.close(forest)
+
+            cal = self.plot_calibration()
+            cal.axes[0].set_title("Per-node calibration")
+            pdf.savefig(cal)
+            plt.close(cal)
+
     def summary(self) -> str:
         lines = [self.to_dataframe().to_string(index=False)]
         d = self.disparity()
