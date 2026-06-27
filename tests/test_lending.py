@@ -1,8 +1,12 @@
+import os
+
 import numpy as np
 import pandas as pd
 import pytest
 
 from fairscope.lending import LendingFairnessAudit, LendingReport
+
+FIXTURE = os.path.join(os.path.dirname(__file__), "fixtures", "lending_subsample.csv")
 
 
 def _planted_annual(rng, years, n_per_year, base_rate, minority_penalty):
@@ -96,3 +100,45 @@ def test_estimate_cate_recovers_planted_effect():
     assert len(lo) == len(hi) == n
     strong = X[:, 0] > 0
     assert np.median(res["effect"][strong]) > 0  # right sign on the strong stratum
+
+
+def test_golden_fixture_reproduces_widening_gap():
+    """Regression test on a SYNTHETIC subsample (NOT real HMDA). Asserts the planted
+    direction (minority approval < reference), a four-fifths violation, and a WIDENING
+    annual gap. The published HMDA runs used millions of records; this fixture is ~1,500
+    synthetic rows."""
+    df = pd.read_csv(FIXTURE, comment="#")
+    out = (
+        LendingFairnessAudit.from_outcomes(
+            df["approved"].to_numpy(),
+            df["group"].to_numpy(),
+            df["year"].to_numpy(),
+            reference="reference",
+        )
+        .run()
+        .to_dataframe()
+    )
+    mino = out[out.group == "minority"].sort_values("year")
+    di = mino["disparate_impact"].to_numpy()
+    assert (di < 0.80).all()  # four-fifths violated every year
+    assert di[0] > di[1] > di[2]  # gap widens year over year
+    assert di[-1] < 0.50  # severe disparity by the final year
+    ref = out[out.group == "reference"].sort_values("year")["approval_rate"].to_numpy()
+    assert (mino["approval_rate"].to_numpy() < ref).all()  # direction in the rates
+
+
+def test_golden_fixture_cate_sign():
+    pytest.importorskip("econml")
+    df = pd.read_csv(FIXTURE, comment="#")
+    audit = LendingFairnessAudit.from_outcomes(
+        df["approved"].to_numpy(),
+        df["group"].to_numpy(),
+        df["year"].to_numpy(),
+        reference="reference",
+    )
+    res = audit.estimate_cate(df[["x0", "x1", "x2"]].to_numpy(), n_estimators=100)
+    x0 = df["x0"].to_numpy()
+    eff = res["effect"]
+    assert res["ate"] < 0  # minority treatment lowers approval
+    # heterogeneity: more negative where x0 > 0 (the planted stratum)
+    assert np.median(eff[x0 > 0]) < np.median(eff[x0 <= 0])
