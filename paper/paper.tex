@@ -76,7 +76,12 @@ scikit-learn, with optional heavy dependencies isolated behind extras: \texttt{c
 (\texttt{delong}, \texttt{bootstrap}, \texttt{calibration} with recalibration,
 \texttt{correction}, \texttt{metrics}); \texttt{healthcare/} (a one-call clinical fairness
 audit and report); \texttt{nlp/} (the CPFE protocol and gradient-saliency attribution
-stability); and the planned \texttt{lending/} and \texttt{federated/} modules.
+stability); \texttt{lending/} (a descriptive annual approval-gap analysis plus an optional
+subgroup conditional-average-treatment-effect audit via Causal Forest double machine
+learning, behind an \texttt{econml} extra); and \texttt{federated/} (a cross-node audit:
+per-node DeLong intervals, cross-node disparity testing with multiple-comparison control, and
+per-node recalibration). The \texttt{lending/} and \texttt{federated/} modules are
+composition over \texttt{core/} and ports of documented methods---only CPFE is novel.
 
 \paragraph{Statistical primitives, each citing its source.} \texttt{delong} implements AUC
 confidence intervals and paired/unpaired tests using the $O(n \log n)$ midrank algorithm of
@@ -179,7 +184,7 @@ Per-subgroup Expected Calibration Error & not first-class & not first-class & ye
 Subgroup significance test (+ correction) & not first-class & not first-class & yes \\
 Subgroup-stratified recalibration interface & partial & partial & yes \\
 Cross-platform five-axis protocol (CPFE) & no & no & yes (novel) \\
-Per-node / federated audit & no & no & planned \\
+Per-node / federated audit & no & no & yes \\
 Bias-mitigation algorithms & yes & yes & out of scope \\
 \bottomrule
 \end{tabular}

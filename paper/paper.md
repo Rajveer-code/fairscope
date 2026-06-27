@@ -64,9 +64,8 @@ fairscope/
   core/        delong, bootstrap, calibration (+ recalibration), correction, metrics
   healthcare/  one-call clinical fairness audit + report
   nlp/         CPFE five-axis protocol + gradient-saliency attribution stability
-  lending/     subgroup CATE/DML effects + annual gap analysis   (planned)
-  federated/   per-node DeLong + cross-node disparity            (planned)
-  visualize/   forest plots, reliability diagrams, heatmaps
+  lending/     annual approval-gap + subgroup CATE (Causal Forest DML, econml extra)
+  federated/   per-node DeLong + cross-node disparity + recalibration
 ```
 
 **Statistical primitives (`core`), each citing its source.** `delong` implements AUC
@@ -160,7 +159,7 @@ Section 1.)*
 | Subgroup significance test (+ multiple-comparison correction) | not first-class | not first-class | yes |
 | Subgroup-stratified recalibration interface | partial | partial | yes |
 | Cross-platform five-axis protocol (CPFE) | no | no | yes (novel) |
-| Per-node / federated audit | no | no | planned |
+| Per-node / federated audit | no | no | yes |
 | Bias-mitigation algorithms | yes | yes | out of scope |
 
 fairscope does not implement bias-mitigation or constraint-based training; for those, AIF360
