@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+import pytest
 
 from fairscope.lending import LendingFairnessAudit, LendingReport
 
@@ -52,3 +53,46 @@ def test_summary_returns_text():
         .summary()
     )
     assert isinstance(text, str) and "minority" in text
+
+
+def test_estimate_cate_missing_econml_raises(monkeypatch):
+    import builtins
+
+    real = builtins.__import__
+
+    def _no_econml(name, *a, **k):
+        if name.startswith("econml"):
+            raise ImportError("no econml")
+        return real(name, *a, **k)
+
+    monkeypatch.setattr(builtins, "__import__", _no_econml)
+    rng = np.random.default_rng(2)
+    n = 200
+    audit = LendingFairnessAudit.from_outcomes(
+        rng.integers(0, 2, n),
+        np.where(rng.random(n) < 0.5, "minority", "reference"),
+        np.full(n, 2021),
+        reference="reference",
+    )
+    with pytest.raises(ImportError, match=r"fairscope\[lending\]"):
+        audit.estimate_cate(np.zeros((n, 2)))
+
+
+def test_estimate_cate_recovers_planted_effect():
+    pytest.importorskip("econml")
+    rng = np.random.default_rng(3)
+    n = 2000
+    X = rng.normal(size=(n, 3))  # heterogeneity covariates
+    T = (rng.random(n) < 0.5).astype(int)  # protected indicator (treatment)
+    tau = 0.8 * (X[:, 0] > 0)  # heterogeneous planted effect on the X0>0 stratum
+    Y = (0.3 + 0.5 * X[:, 0] + tau * T + rng.normal(scale=0.3, size=n) > 0.5).astype(int)
+    audit = LendingFairnessAudit.from_outcomes(
+        Y, np.where(T == 1, "minority", "reference"), np.full(n, 2021), reference="reference"
+    )
+    # defaults: treatment derives from group != reference, outcome from approved (P1 style)
+    res = audit.estimate_cate(X, n_estimators=200)
+    assert res["ate"] != 0
+    lo, hi = res["effect_interval"]
+    assert len(lo) == len(hi) == n
+    strong = X[:, 0] > 0
+    assert np.median(res["effect"][strong]) > 0  # right sign on the strong stratum
