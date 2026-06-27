@@ -22,7 +22,8 @@ def FairnessAudit(model, domain, **kwargs):
     domain : str
         The audit domain. Implemented: ``"healthcare"`` (uses ``model``), ``"nlp"``
         (the CPFE protocol; operates on precomputed ``platform_data``, ``model`` ignored),
-        and ``"federated"`` (cross-node audit of precomputed ``node_data``, ``model``
+        ``"federated"`` (cross-node audit of precomputed ``node_data``, ``model``
+        ignored), and ``"lending"`` (annual approval-gap + subgroup CATE, ``model``
         ignored).
     **kwargs : passed through to the domain audit class.
 
@@ -44,7 +45,11 @@ def FairnessAudit(model, domain, **kwargs):
         from .federated import FederatedFairnessAudit
 
         return FederatedFairnessAudit(**kwargs)
+    if domain == "lending":
+        from .lending import LendingFairnessAudit
+
+        return LendingFairnessAudit(**kwargs)
     raise ValueError(
         f"unknown or unimplemented domain: {domain!r}; "
-        "available domains: 'healthcare', 'nlp', 'federated'"
+        "available domains: 'healthcare', 'nlp', 'federated', 'lending'"
     )

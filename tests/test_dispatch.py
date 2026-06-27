@@ -43,6 +43,23 @@ def test_dispatch_routes_federated():
     assert not audit.run().to_dataframe().empty
 
 
+def test_dispatch_routes_lending():
+    from fairscope.lending import LendingFairnessAudit
+
+    rng = np.random.default_rng(2)
+    n = 200
+    audit = fairscope.FairnessAudit(
+        None,
+        domain="lending",
+        approved=rng.integers(0, 2, n),
+        group=np.where(rng.random(n) < 0.5, "minority", "reference"),
+        year=np.full(n, 2021),
+        reference="reference",
+    )
+    assert isinstance(audit, LendingFairnessAudit)
+    assert not audit.run().to_dataframe().empty
+
+
 def test_dispatch_unknown_domain_raises():
     with pytest.raises(ValueError, match="domain"):
         fairscope.FairnessAudit(None, domain="nope")

@@ -41,6 +41,7 @@ dependencies = [
 [project.optional-dependencies]
 nlp = ["torch>=2.0", "transformers>=4.30", "captum>=0.6"]
 shap = ["shap>=0.42"]
+lending = ["econml>=0.15"]
 docs = ["mkdocs>=1.5", "mkdocs-material>=9.4", "mkdocstrings[python]>=0.24"]
 dev = [
     "pytest>=7.4",
@@ -51,7 +52,7 @@ dev = [
     "statsmodels>=0.14",
     "nbmake>=1.5",
 ]
-all = ["fairscope[nlp,shap]"]
+all = ["fairscope[nlp,shap,lending]"]
 
 [project.urls]
 Homepage = "https://github.com/Rajveer-code/fairscope"

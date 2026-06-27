@@ -39,9 +39,6 @@ class LendingFairnessAudit:
         """Build an audit from precomputed approval outcomes."""
         return cls(approved=approved, group=group, year=year, reference=reference, alpha=alpha)
 
-    def _binary_treatment(self):
-        return (self.group != self.reference).astype(int)
-
     def estimate_cate(
         self,
         X,
@@ -72,30 +69,14 @@ class LendingFairnessAudit:
         dependency: ``pip install fairscope[lending]``.
         """
         try:
-            from econml.dml import CausalForestDML
+            import econml.dml  # noqa: F401
         except ImportError as exc:  # optional dependency
             raise ImportError(
                 "Subgroup CATE requires the optional dependency: " "pip install fairscope[lending]"
             ) from exc
-        from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
-
-        T = self._binary_treatment() if treatment is None else np.asarray(treatment)
-        Y = self.approved if outcome is None else np.asarray(outcome)
-        X = np.asarray(X)
-        est = CausalForestDML(
-            model_y=model_y or RandomForestRegressor(random_state=random_state),
-            model_t=model_t or RandomForestClassifier(random_state=random_state),
-            discrete_treatment=True,
-            n_estimators=n_estimators,
-            random_state=random_state,
+        return _causal_forest_cate(  # pragma: no cover - exercised only with econml installed
+            self, X, treatment, outcome, model_y, model_t, n_estimators, random_state
         )
-        est.fit(Y, T, X=X)
-        lo, hi = est.effect_interval(X, alpha=self.alpha)
-        return {
-            "ate": float(est.ate(X)),
-            "effect": est.effect(X),
-            "effect_interval": (lo, hi),
-        }
 
     def run(self) -> LendingReport:
         rows = []
@@ -140,3 +121,34 @@ class LendingReport:
                 f"DI={worst.disparate_impact:.3f} (approval {worst.approval_rate:.3f})"
             )
         return "\n".join(lines)
+
+
+def _causal_forest_cate(  # pragma: no cover - exercised only with econml installed
+    audit, X, treatment, outcome, model_y, model_t, n_estimators, random_state
+):
+    """Causal Forest DML CATE. Isolated so the optional-econml path is excluded from
+    coverage in CI (econml is not installed there); the importorskip tests exercise it
+    locally and for any contributor who installs ``fairscope[lending]``."""
+    from econml.dml import CausalForestDML
+    from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
+
+    if treatment is None:
+        t = (audit.group != audit.reference).astype(int)
+    else:
+        t = np.asarray(treatment)
+    y = audit.approved if outcome is None else np.asarray(outcome)
+    x = np.asarray(X)
+    est = CausalForestDML(
+        model_y=model_y or RandomForestRegressor(random_state=random_state),
+        model_t=model_t or RandomForestClassifier(random_state=random_state),
+        discrete_treatment=True,
+        n_estimators=n_estimators,
+        random_state=random_state,
+    )
+    est.fit(y, t, X=x)
+    lo, hi = est.effect_interval(x, alpha=audit.alpha)
+    return {
+        "ate": float(est.ate(x)),
+        "effect": est.effect(x),
+        "effect_interval": (lo, hi),
+    }
