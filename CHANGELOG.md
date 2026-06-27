@@ -6,6 +6,25 @@ adhere to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [0.3.0] - 2026-06-27
+
+### Added
+- `fairscope.federated`: `FederatedFairnessAudit` + `FederatedReport` — a cross-node
+  (federated / multi-site) audit composing `core`: per-node DeLong AUC CIs, ECE, Brier and
+  F1; cross-node disparity (max−min AUC gap and Bonferroni-corrected pairwise unpaired
+  DeLong tests); optional per-node recalibration (temperature/isotonic) with pre/post ECE;
+  per-node AUC forest, reliability curves, and PDF export. Audits per-node predictions only
+  — no training and no privacy guarantee. Routed via `FairnessAudit(model, domain="federated", ...)`.
+- `fairscope.lending`: `LendingFairnessAudit` + `LendingReport` — a descriptive annual
+  approval-gap analysis (symmetric disparate impact per year, composing `core`) plus an
+  optional subgroup CATE via Causal Forest DML (`estimate_cate`, `econml.dml.CausalForestDML`).
+  Causal claims are conditional on the DML assumptions. `econml` is the optional
+  `fairscope[lending]` extra. Routed via `FairnessAudit(model, domain="lending", ...)`.
+- Documentation pages for the federated and lending modules, and an auto-generated API
+  reference for both.
+- Replication notebooks `notebooks/03_lending_replication.ipynb` and
+  `notebooks/04_federated_replication.ipynb` (synthetic; executed in CI via `nbmake`).
+
 ## [0.2.0] - 2026-06-27
 
 ### Added
@@ -42,5 +61,6 @@ adhere to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   the published direction and approximate magnitude (elderly < young AUC, gap ≈ 0.135).
 - Top-level `FairnessAudit(model, domain=...)` dispatcher (healthcare implemented).
 
+[0.3.0]: https://github.com/Rajveer-code/fairscope/releases/tag/v0.3.0
 [0.2.0]: https://github.com/Rajveer-code/fairscope/releases/tag/v0.2.0
 [0.1.0]: https://github.com/Rajveer-code/fairscope/releases/tag/v0.1.0
