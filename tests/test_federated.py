@@ -52,3 +52,39 @@ def test_summary_returns_text_and_flags_gap():
 def test_single_class_node_raises():
     with pytest.raises(ValueError):
         FederatedFairnessAudit({"bad": (np.ones(10, int), np.linspace(0, 1, 10))}).run()
+
+
+def _overconfident(rng, n, sep, sharpen):
+    """A node whose scores are over-confident (a pure temperature distortion), so
+    temperature scaling can recover calibration."""
+    y, s = _node(rng, n, sep)
+    p = np.clip(s, 1e-6, 1 - 1e-6)
+    logit = np.log(p / (1 - p))
+    s_over = 1.0 / (1.0 + np.exp(-logit * sharpen))
+    return y, s_over
+
+
+def test_recalibrate_temperature_reduces_miscalibrated_node_ece():
+    rng = np.random.default_rng(3)
+    report = FederatedFairnessAudit(
+        {"good": _node(rng, 2000, 1.0), "bad": _overconfident(rng, 2000, 1.0, 3.0)}
+    ).run()
+    recal = report.recalibrate(method="temperature")
+    assert recal["bad"]["ece_post"] < recal["bad"]["ece_pre"]
+    assert set(recal["bad"]) == {"ece_pre", "ece_post"}
+
+
+def test_recalibrate_isotonic_reduces_miscalibrated_node_ece():
+    rng = np.random.default_rng(4)
+    report = FederatedFairnessAudit(
+        {"good": _node(rng, 2000, 1.0), "bad": _overconfident(rng, 2000, 1.0, 3.0)}
+    ).run()
+    recal = report.recalibrate(method="isotonic")
+    assert recal["bad"]["ece_post"] < recal["bad"]["ece_pre"]
+
+
+def test_recalibrate_unknown_method_raises():
+    rng = np.random.default_rng(5)
+    report = FederatedFairnessAudit(_nodes(rng)).run()
+    with pytest.raises(ValueError, match="temperature"):
+        report.recalibrate(method="platt")

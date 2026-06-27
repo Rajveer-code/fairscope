@@ -22,6 +22,8 @@ from ..core import (
     delong_auc_ci,
     delong_unpaired_test,
     expected_calibration_error,
+    isotonic_recalibrate,
+    temperature_scale,
 )
 
 
@@ -118,6 +120,32 @@ class FederatedReport:
             "worst": lo,
             "worst_pair": (lo, hi),
         }
+
+    def recalibrate(self, method="temperature") -> dict:
+        """Recalibrate each node on its own (y, score) and report pre/post ECE.
+
+        ``method`` is 'temperature' (Guo et al., 2017) or 'isotonic' (Zadrozny &
+        Elkan, 2002) — both standard methods from ``fairscope.core``. Temperature
+        scaling operates on logits, so the per-node probabilities are converted to
+        logits first. Returns ``{node: {"ece_pre": float, "ece_post": float}}``.
+
+        NOTE: this fits and evaluates on the same per-node data (an in-sample
+        diagnostic). For a deployment estimate, recalibrate on a held-out split.
+        """
+        if method not in ("temperature", "isotonic"):
+            raise ValueError(f"unknown method: {method!r}; use 'temperature' or 'isotonic'")
+        out = {}
+        for node, (y, s) in self._node_data.items():
+            pre = expected_calibration_error(y, s, n_bins=self.n_bins)
+            if method == "temperature":
+                p = np.clip(s, 1e-7, 1 - 1e-7)
+                logits = np.log(p / (1 - p))
+                _, s_cal = temperature_scale(logits, y)
+            else:  # isotonic
+                _, s_cal = isotonic_recalibrate(s, y)
+            post = expected_calibration_error(y, s_cal, n_bins=self.n_bins)
+            out[node] = {"ece_pre": float(pre), "ece_post": float(post)}
+        return out
 
     def summary(self) -> str:
         lines = [self.to_dataframe().to_string(index=False)]
