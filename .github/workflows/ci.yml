@@ -35,3 +35,6 @@ jobs:
 
       - name: Pytest + coverage (overall floor >=70%)
         run: pytest --cov=fairscope --cov-report=term-missing --cov-fail-under=70
+
+      - name: Execute replication notebooks (nbmake)
+        run: pytest --nbmake notebooks/
