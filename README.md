@@ -54,10 +54,11 @@ getting-started example.
 | `core/` | DeLong CI, bootstrap-AUC test, ECE/MCE + reliability, multiple-testing correction, subgroup metrics | ✅ shipped |
 | `healthcare/` | one-call clinical fairness audit + report (tables, forest & reliability plots, PDF, optional SHAP) | ✅ shipped |
 | `nlp/` | CPFE 5-axis cross-platform protocol (centerpiece) + Captum attribution stability | ✅ shipped |
-| `lending/` | subgroup CATE/DML effects + annual gap analysis | planned |
-| `federated/` | per-node DeLong + cross-node disparity + recalibration | planned |
+| `federated/` | per-node DeLong + cross-node disparity + recalibration | ✅ shipped |
+| `lending/` | annual approval-gap + subgroup CATE (Causal Forest DML) | ✅ shipped |
 
 Plotting (forest plots, reliability diagrams) currently lives in the domain reports.
+`lending`'s CATE estimation needs the optional `fairscope[lending]` extra (`econml`).
 
 ## How it differs from AIF360 / Fairlearn
 
