@@ -6,6 +6,8 @@ adhere to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-06-27
+
 ### Added
 - `fairscope.nlp`: the five-axis Cross-Platform Fairness Evaluation (CPFE) protocol —
   `CPFEProtocol` + `CPFEReport` (macro AUC/F1 and ΔAUC%, multiclass ECE, bootstrap
@@ -14,6 +16,11 @@ adhere to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   stated reference bands (with an illustrative, configurable ΔAUC limit), and
   gradient-saliency Jaccard attribution stability (`token_saliency` behind
   `fairscope[nlp]`). Routed via `FairnessAudit(model, domain="nlp", ...)`.
+- Documentation site (MkDocs Material + mkdocstrings) published to GitHub Pages:
+  getting-started with a runnable example on the synthetic fixture, CPFE and healthcare
+  guides, and an auto-generated API reference. <https://rajveer-code.github.io/fairscope/>
+- Replication notebooks (`notebooks/01_healthcare_replication.ipynb`,
+  `notebooks/02_nlp_cpfe_demo.ipynb`) executed in CI via `nbmake`.
 
 ## [0.1.0] - 2026-06-26
 
@@ -35,4 +42,5 @@ adhere to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   the published direction and approximate magnitude (elderly < young AUC, gap ≈ 0.135).
 - Top-level `FairnessAudit(model, domain=...)` dispatcher (healthcare implemented).
 
+[0.2.0]: https://github.com/Rajveer-code/fairscope/releases/tag/v0.2.0
 [0.1.0]: https://github.com/Rajveer-code/fairscope/releases/tag/v0.1.0
