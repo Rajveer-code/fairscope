@@ -20,8 +20,10 @@ def FairnessAudit(model, domain, **kwargs):
     ----------
     model : the fitted classifier (or ``None`` with precomputed scores via the domain API).
     domain : str
-        The audit domain. Implemented: ``"healthcare"`` (uses ``model``) and ``"nlp"``
-        (the CPFE protocol; operates on precomputed ``platform_data``, ``model`` ignored).
+        The audit domain. Implemented: ``"healthcare"`` (uses ``model``), ``"nlp"``
+        (the CPFE protocol; operates on precomputed ``platform_data``, ``model`` ignored),
+        and ``"federated"`` (cross-node audit of precomputed ``node_data``, ``model``
+        ignored).
     **kwargs : passed through to the domain audit class.
 
     Examples
@@ -38,6 +40,11 @@ def FairnessAudit(model, domain, **kwargs):
         from .nlp import CPFEProtocol
 
         return CPFEProtocol(**kwargs)
+    if domain == "federated":
+        from .federated import FederatedFairnessAudit
+
+        return FederatedFairnessAudit(**kwargs)
     raise ValueError(
-        f"unknown or unimplemented domain: {domain!r}; available domains: 'healthcare', 'nlp'"
+        f"unknown or unimplemented domain: {domain!r}; "
+        "available domains: 'healthcare', 'nlp', 'federated'"
     )

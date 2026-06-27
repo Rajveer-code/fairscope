@@ -26,6 +26,23 @@ def test_dispatch_routes_healthcare():
     assert not audit.run().to_dataframe().empty
 
 
+def test_dispatch_routes_federated():
+    from fairscope.federated import FederatedFairnessAudit
+
+    rng = np.random.default_rng(1)
+
+    def _node(sep):
+        y = np.r_[np.ones(100, int), np.zeros(100, int)]
+        raw = np.r_[rng.normal(sep, 1, 100), rng.normal(0, 1, 100)]
+        return y, 1.0 / (1.0 + np.exp(-raw))
+
+    audit = fairscope.FairnessAudit(
+        None, domain="federated", node_data={"a": _node(1.2), "b": _node(0.5)}
+    )
+    assert isinstance(audit, FederatedFairnessAudit)
+    assert not audit.run().to_dataframe().empty
+
+
 def test_dispatch_unknown_domain_raises():
     with pytest.raises(ValueError, match="domain"):
         fairscope.FairnessAudit(None, domain="nope")
