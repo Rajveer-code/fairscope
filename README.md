@@ -18,11 +18,18 @@ Elkan 2002), and a novel five-axis **Cross-Platform Fairness Evaluation (CPFE)**
 Only the CPFE protocol is presented as novel. The recalibration methods are standard; the
 contribution there is the per-subgroup interface and pre/post-ECE reporting.
 
-> **Status: Phase 0 — public skeleton.** The API is being built incrementally and is not
-> yet on PyPI. Modules land one phase at a time; see
-> [`docs/DESIGN.md`](docs/DESIGN.md) for the methods, API design, and roadmap.
+> **Status: v0.2.0.** `core`, `healthcare`, and the CPFE `nlp` protocol are implemented and
+> tested (100% coverage, CI on Python 3.9–3.12). `lending/` and `federated/` are planned.
+> See [`docs/DESIGN.md`](docs/DESIGN.md) for the methods, API design, and roadmap.
 
-## Install (development)
+## Install
+
+```bash
+pip install fairscope
+```
+
+Releases are uploaded to PyPI by the maintainer; if a version isn't available there yet,
+install from source or from the release assets:
 
 ```bash
 git clone https://github.com/Rajveer-code/fairscope
@@ -31,20 +38,26 @@ pip install -e ".[dev]"
 pytest
 ```
 
-`pip install fairscope` will work from the v0.1.0 release (Phase 2). Heavy NLP
-dependencies (torch, transformers, captum) install via `pip install fairscope[nlp]`;
-SHAP via `fairscope[shap]`. The base install stays light.
+Wheels and source distributions are attached to every
+[GitHub release](https://github.com/Rajveer-code/fairscope/releases).
 
-## Planned modules
+Heavy NLP dependencies (torch, transformers, captum) install via
+`pip install fairscope[nlp]`; SHAP via `fairscope[shap]`; docs tooling via
+`fairscope[docs]`. The base install stays light. See the
+[documentation site](https://rajveer-code.github.io/fairscope/) for a runnable
+getting-started example.
 
-| Module | Purpose | Phase |
+## Modules
+
+| Module | Purpose | Status |
 |---|---|---|
-| `core/` | DeLong CI, bootstrap-AUC test, ECE/MCE + reliability, multiple-testing correction, subgroup metrics | 1 |
-| `healthcare/` | one-call clinical fairness audit + report | 2 |
-| `nlp/` | CPFE 5-axis cross-platform protocol (centerpiece) + Captum attribution stability | 3 |
-| `lending/` | subgroup CATE/DML effects + annual gap analysis | 4 |
-| `federated/` | per-node DeLong + cross-node disparity + recalibration | 4 |
-| `visualize/` | forest plots, reliability diagrams, heatmaps | throughout |
+| `core/` | DeLong CI, bootstrap-AUC test, ECE/MCE + reliability, multiple-testing correction, subgroup metrics | ✅ shipped |
+| `healthcare/` | one-call clinical fairness audit + report (tables, forest & reliability plots, PDF, optional SHAP) | ✅ shipped |
+| `nlp/` | CPFE 5-axis cross-platform protocol (centerpiece) + Captum attribution stability | ✅ shipped |
+| `lending/` | subgroup CATE/DML effects + annual gap analysis | planned |
+| `federated/` | per-node DeLong + cross-node disparity + recalibration | planned |
+
+Plotting (forest plots, reliability diagrams) currently lives in the domain reports.
 
 ## How it differs from AIF360 / Fairlearn
 
@@ -58,10 +71,10 @@ SHAP via `fairscope[shap]`. The base install stays light.
 ## Grounded in published research
 
 `fairscope` ports methods from the author's peer-reviewed and under-review papers; it
-invents no new mathematics. Each function cites its source. (Venues/years to be confirmed
-in `CITATION.cff`.)
+invents no new mathematics. Each function cites its source. Full venues and identifiers
+are in [`CITATION.cff`](CITATION.cff).
 
-- Diabetes risk prediction with external validation + fairness analysis (XGBoost, NHANES→BRFSS) — IEEE, 2025.
+- Diabetes risk prediction with external validation + fairness analysis (XGBoost, NHANES→BRFSS) — IEEE CIPHER, 2026.
 - A five-axis Cross-Platform Fairness Evaluation for mental-health NLP — under review.
 - Privacy-preserving federated learning for diabetes risk across heterogeneous nodes — under review.
 - Heterogeneous racial effects in mortgage approval (Causal Forest Double Machine Learning, HMDA) — under review.
