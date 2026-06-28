@@ -62,12 +62,33 @@ Plotting (forest plots, reliability diagrams) currently lives in the domain repo
 
 ## How it differs from AIF360 / Fairlearn
 
-> **Comparison table pending verification.** Per the project's honesty rules, the
-> capability comparison is published *only after* `pip install aif360 fairlearn` and a
-> direct inspection of their current public APIs confirms each claim is still true as of
-> the release date. The same gate applies to the `meval` toolbox: confirm it exists and is
-> accurately described before citing it anywhere. No comparison claim ships unverified.
-> See [`docs/DESIGN.md`](docs/DESIGN.md).
+`fairscope` is complementary to AIF360 and Fairlearn, not a replacement: those toolkits do
+bias *mitigation*; `fairscope` does uncertainty-aware *measurement*. The table below was
+verified by inspecting the installed public APIs of **AIF360 0.6.1** and **Fairlearn 0.14.0**
+(checked 2026-06; re-confirm if versions change).
+
+| Capability | AIF360 | Fairlearn | fairscope |
+|---|:---:|:---:|:---:|
+| Per-subgroup AUC confidence interval (DeLong) | no | no\* | yes |
+| Per-subgroup Expected Calibration Error | no | no | yes |
+| Subgroup significance test + multiple-comparison correction | no | no | yes |
+| Subgroup-stratified recalibration (temperature / isotonic) | partial† | no | yes |
+| Cross-platform five-axis protocol (CPFE) | no | no | yes (novel) |
+| Per-node / federated audit | no | no | yes |
+| Bias-mitigation algorithms | yes | yes | out of scope |
+
+\* Fairlearn's `MetricFrame` computes per-subgroup AUC *point estimates* (e.g.
+`roc_auc_score_group_min`), but provides no analytic (DeLong) confidence interval.
+† AIF360 ships `CalibratedEqOddsPostprocessing` (calibration-aware equalized-odds
+postprocessing), not a general per-subgroup temperature/isotonic recalibration interface.
+
+**Closest related work — `meval`** (Sutariya & Petersen, 2025,
+[arXiv:2512.17409](https://arxiv.org/abs/2512.17409)): a statistical toolbox for stratified,
+fine-grained model-performance analysis that *also* provides subgroup metric uncertainty and
+multiple-comparison corrections (with a medical-imaging focus). `fairscope` overlaps with it on
+uncertainty + significance; what `fairscope` adds is the specific DeLong AUC intervals, the
+per-subgroup calibration **and recalibration** interface, the five-axis cross-platform CPFE
+protocol, and one-call domain audits (healthcare / lending / federated).
 
 ## Grounded in published research
 

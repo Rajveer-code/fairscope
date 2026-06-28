@@ -43,16 +43,18 @@ in applied audits are not available in either as first-class, subgroup-stratifie
   is distinguishable from sampling noise requires a paired or unpaired test with
   multiple-comparison control; this is left to the user.
 
-A 2025 toolbox, *meval* [Sutariya & Petersen 2025], moves in a similar direction by providing fine-grained,
-stratified performance analysis, and we cite it as the most closely related recent work; the
-precise overlap should be assessed against its current release. fairscope's distinguishing
-surface is the combination of subgroup DeLong intervals, per-subgroup calibration and
-*recalibration*, multiple-comparison-corrected significance, the five-axis cross-platform
-protocol, and a per-node federated audit, packaged as a single tested library.
+The most closely related recent work is the 2025 toolbox *meval* [Sutariya & Petersen 2025], a
+statistical toolbox for stratified, fine-grained model-performance analysis that *also* provides
+subgroup metric uncertainty and multiple-comparison corrections (with a medical-imaging focus).
+fairscope overlaps with meval on uncertainty and significance; what it adds is the specific
+DeLong per-subgroup AUC intervals, the per-subgroup calibration *and recalibration* interface,
+the five-axis cross-platform CPFE protocol, and one-call domain audits (healthcare, lending,
+federated). Relative to AIF360 and Fairlearn, the subgroup DeLong interval, per-subgroup ECE,
+and corrected significance test are not first-class functions at all (Section 6).
 
-*(Verification note: the capability comparison in Section 6 is to be re-confirmed against the
-installed versions of AIF360 and Fairlearn, and meval's documented coverage, before
-submission. Claims that no longer hold will be softened or removed.)*
+*(Verification note: the capability comparison in Section 6 was checked against AIF360 0.6.1 and
+Fairlearn 0.14.0 (June 2026) by inspecting their installed public APIs, and meval against its
+arXiv description; re-confirm if those versions change before submission.)*
 
 # 2. Design
 
@@ -149,18 +151,22 @@ which dimensions failed. These figures are reproducible via `paper/cpfe_demo.py`
 
 # 5. Comparison with existing toolkits
 
-*(Provisional — to be re-verified against installed package versions before submission, per
-Section 1.)*
+Verified against AIF360 0.6.1 and Fairlearn 0.14.0 (June 2026) by inspecting their installed
+public APIs.
 
 | Capability | AIF360 | Fairlearn | fairscope |
-|---|---|---|---|
-| Per-subgroup AUC with DeLong CI | not first-class | not first-class | yes |
-| Per-subgroup Expected Calibration Error | not first-class | not first-class | yes |
-| Subgroup significance test (+ multiple-comparison correction) | not first-class | not first-class | yes |
-| Subgroup-stratified recalibration interface | partial | partial | yes |
+|---|:---:|:---:|:---:|
+| Per-subgroup AUC confidence interval (DeLong) | no | no\* | yes |
+| Per-subgroup Expected Calibration Error | no | no | yes |
+| Subgroup significance test + multiple-comparison correction | no | no | yes |
+| Subgroup-stratified recalibration (temperature / isotonic) | partial† | no | yes |
 | Cross-platform five-axis protocol (CPFE) | no | no | yes (novel) |
 | Per-node / federated audit | no | no | yes |
 | Bias-mitigation algorithms | yes | yes | out of scope |
+
+\* Fairlearn's `MetricFrame` computes per-subgroup AUC point estimates but no analytic (DeLong)
+interval. † AIF360 ships `CalibratedEqOddsPostprocessing` (calibrated equalized-odds
+postprocessing), not a general per-subgroup recalibration interface.
 
 fairscope does not implement bias-mitigation or constraint-based training; for those, AIF360
 and Fairlearn remain the appropriate tools. fairscope's scope is rigorous, uncertainty-aware
@@ -176,8 +182,9 @@ and Fairlearn remain the appropriate tools. fairscope's scope is rigorous, uncer
   regulatory criteria.
 - Gradient-saliency attribution is a local linear approximation and can be unstable across
   seeds; the Jaccard axis should be read as consistent-with-instability, not as definitive.
-- The capability comparison (Section 5) requires confirmation against current toolkit
-  releases before publication.
+- The capability comparison (Section 5) reflects AIF360 0.6.1 and Fairlearn 0.14.0 as of
+  June 2026; toolkit APIs evolve, so it should be re-checked against the releases current at
+  publication.
 
 # 7. Availability
 
